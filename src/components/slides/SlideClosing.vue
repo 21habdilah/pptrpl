@@ -10,7 +10,7 @@
 
     <!-- JUDUL SLIDE -->
     <h2 class="ppt-title">Penutup</h2>
-    <p class="ppt-subtitle">Terakhir… mari tertawa sedikit 😎</p>
+    <p class="ppt-subtitle"></p>
 
     <!-- GRID MEME CINEMATIC -->
     <div class="meme-grid">
@@ -20,7 +20,7 @@
           :key="meme.title"
           class="meme-card"
         >
-          <img :src="meme.src" :alt="meme.title" />
+          <img :src="meme.src"/>
           <p class="meme-caption">{{ meme.title }}</p>
         </div>
       </transition-group>
@@ -35,8 +35,8 @@ import gsap from 'gsap';
 import SpotlightWrapper from '../SpotlightWrapper.vue';
 
 const memes = [
-  { src: '/memes/meme1.png', title: 'Ketika program run tanpa error 😎' },
-  { src: '/memes/meme2.png', title: 'Debugging itu ibarat nyari kunci 🔑' },
+  { src: '/memes/1.png', title: 'Sebaik-baiknya apalikasi adalah apalikasi Muslim Pro 😎' },
+  { src: '/memes/2.png', title: 'Debugging itu ibarat nyari kunci 🔑' },
   { src: '/memes/meme3.png', title: 'Commit dulu sebelum kopi habis ☕' },
 ];
 

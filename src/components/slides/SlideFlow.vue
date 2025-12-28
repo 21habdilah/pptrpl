@@ -1,5 +1,13 @@
 <template>
   <SpotlightWrapper class="ppt-container">
+   <!-- BACKGROUND RPL ELEMENTS -->
+    <div class="rpl-bg-icons">
+      <span>&lt;/&gt;</span>
+      <span>⚙</span>
+      <span>🗄</span>
+      <span>☁</span>
+      <span>📦</span>
+    </div>
   <div class="slide-main">
   <!-- Header -->
  <header class="slide-header">
@@ -402,6 +410,38 @@ strong {
   color: #facc15; /* Warna aksen kuning untuk footer terminal */
   font-family: monospace;
 }
+/* BACKGROUND RPL ICONS */
+.rpl-bg-icons {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  font-size: 6rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+
+/* PHASE TAG */
+.phase-tag {
+  margin-left: 8px;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(6,182,212,0.15);
+  color: #06b6d4;
+  border: 1px solid rgba(6,182,212,0.4);
+}
+
+/* ICON POLISH */
+.tech-section strong,
+.methods-section strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 
 .cursor {
   animation: blink 1s steps(1) infinite;

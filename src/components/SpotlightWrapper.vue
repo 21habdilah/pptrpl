@@ -34,7 +34,7 @@ onMounted(() => {
   overflow: hidden;
 }
 
-/* Neon glow + floating */
+
 .spot.on {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -49,7 +49,7 @@ onMounted(() => {
   100% { transform: translateY(0) scale(1); }
 }
 
-/* Trail neon */
+
 .trail {
   position: absolute;
   bottom: -20px;
@@ -64,13 +64,12 @@ onMounted(() => {
   opacity: 0;
 }
 
-/* Trail muncul saat section aktif */
+
 .spot.on .trail {
   transform: translateX(-50%) scaleX(1);
   opacity: 1;
 }
 
-/* Hover micro effect */
 .spot:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 25px 50px rgba(56,189,248,0.25);

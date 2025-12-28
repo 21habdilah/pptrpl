@@ -76,7 +76,7 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Spot slides */
+
 .spot {
   position: relative;
   min-height: 100vh;
@@ -88,13 +88,11 @@ onMounted(() => {
   box-shadow: 0 0 0 rgba(56,189,248,0);
   z-index: 1;
 }
-
-/* Slide appears */
 .spot.on {
   opacity: 1;
   transform: translateY(0) scale(1);
   box-shadow: 0 0 20px rgba(56,189,248,0.3), 0 10px 30px rgba(56,189,248,0.2);
-  animation: float 4s ease-in-out infinite;
+  animation: float 10s ease-in-out infinite;
 }
 
 /* Floating animation */
@@ -104,7 +102,7 @@ onMounted(() => {
   100% { transform: translateY(0) scale(1); }
 }
 
-/* HUD slide counter */
+
 .hud {
   position: fixed;
   bottom: 20px;

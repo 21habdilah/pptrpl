@@ -10,8 +10,8 @@ export const slides = [
   { id: 1, component: SlideHero },
   { id: 2, component: SlideRPL },
   { id: 3, component: SlideTech },
-  { id: 4, component: SlideFlow },
-  { id: 5, component: SlideTimeline },
+  { id: 4, component: SlideFlow }, 
   { id: 6, component: SlideDeploy },
+  { id: 5, component: SlideTimeline },
   { id: 7, component: SlideClosing },
 ];
