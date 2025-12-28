@@ -36,7 +36,7 @@
       </h2>
 
       <div class="terminal-line">
-        <span class="prompt">engineer@rpl:~$</span>
+        <span class="prompt">awasombak@rpl:~$</span>
         <span class="cmd"> ./build_solution_with_process.sh</span>
         <span class="cursor">_</span>
       </div>
@@ -165,15 +165,18 @@ onMounted(() => {
 
 /* HERO */
 .hero-box {
-  position: relative;
+  position: relative; /* Tetap relative agar z-index & ::after bekerja */
   z-index: 5;
   padding: 4rem 5rem;
   text-align: center;
-  background: rgba(2,6,23,0.6);
-  border: 1px solid rgba(56,189,248,0.35);
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 20px;
   backdrop-filter: blur(14px);
-  box-shadow: 0 40px 120px rgba(0,0,0,0.7);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7);
+  flex-shrink: 0; 
+  margin: 0; 
+  margin-right:75px ;
 }
 
 .hero-box::after {
