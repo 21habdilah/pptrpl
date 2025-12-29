@@ -154,7 +154,7 @@ const scopeItems = [
     ],
     tools: ["BRD", "Draw.io"],
     methods: [
-      { name: "Wawancara Pengguna", desc: "Menggali apa yang sebenarnya dibutuhkan oleh orang yang akan memakai aplikasi." },
+      { name: "Wawancara Pengguna", desc: "Menggali apa yang sebenarnya dibutuhkan oleh pengguna." },
       { name: "Analisis Akar Masalah", desc: "Mencari sumber utama masalah, bukan hanya melihat gejalanya saja." },
       { name: "Pemetaan Alur", desc: "Menggambarkan bagaimana pengguna akan berinteraksi dengan aplikasi." }
     ]
@@ -162,7 +162,7 @@ const scopeItems = [
   {
     icon: '📐',
     title: "Perancangan Sistem",
-    summary: "Rancang alur & tampilan (Cetak Biru).",
+    summary: "Rancang alur & tampilan desain.",
     desc: "Merancang sistem, antarmuka (UI/UX), dan struktur database sebelum tahap coding.",
     details: [
       "Perancangan UI/UX aplikasi",
@@ -189,7 +189,7 @@ const scopeItems = [
     tools: ["Vue.js", "Node.js", "VS Code"],
     methods: [
       { name: "Koding Standar", desc: "Menulis kode yang rapi agar mudah dibaca dan diperbaiki orang lain." },
-      { name: "Review Bersama", desc: "Saling mengecek kode antar teman setim untuk menghindari kesalahan." },
+      { name: "Review Bersama", desc: "Saling mengecek kode antar teman untuk menghindari kesalahan." },
       { name: "Penyusunan Komponen", desc: "Membuat potongan kode yang bisa digunakan kembali di fitur lain." }
     ]
   },
@@ -203,7 +203,7 @@ const scopeItems = [
       "Integritas data",
       "Optimasi query"
     ],
-    tools: ["PostgreSQL", "MySQL", "MongoDB"],
+    tools: ["PostgreSQL", "MySQL"],
     methods: [
       { name: "Perapihan Data", desc: "Menata struktur tabel agar data tidak dobel (duplikat) dan hemat memori." },
       { name: "Pencarian Cepat", desc: "Membuat indeks agar aplikasi bisa mencari data dalam sekejap." },
@@ -217,10 +217,10 @@ const scopeItems = [
     desc: "Menjamin kualitas, keamanan, dan stabilitas sistem sebelum rilis ke pengguna.",
     details: [
       "Unit & Integration testing",
-      "User Acceptance Test (UAT)",
+      "User Acceptance Test",
       "Debugging & perbaikan bug"
     ],
-    tools: ["Jest", "Cypress", "PageSpeed Insights"],
+    tools: ["server local", "PageSpeed Insights"],
     methods: [
       { name: "Uji Fungsi", desc: "Mencoba setiap tombol dan fitur untuk memastikan semuanya berjalan benar." },
       { name: "Tes Beban", desc: "Mencoba aplikasi diakses banyak orang sekaligus untuk melihat kekuatannya." },
@@ -237,11 +237,11 @@ const scopeItems = [
       "Manajemen beban kerja tim",
       "Monitoring progres harian"
     ],
-    tools: ["Trello", "Jira", "Notion"],
+    tools: ["Trello", "Github"],
     methods: [
-      { name: "Cicilan Tugas (Sprint)", desc: "Membagi pekerjaan besar menjadi tugas-tugas kecil per dua mingguan." },
-      { name: "Update Harian", desc: "Pertemuan singkat tiap pagi untuk memastikan tidak ada tim yang kesulitan." },
-      { name: "Evaluasi Tim", desc: "Diskusi di akhir tahap untuk memperbaiki cara kerja di tahap berikutnya." }
+      { name: "Cicilan Tugas (Sprint)", desc: "Membagi pekerjaan besar menjadi tugas-tugas kecil per waktu." },
+      { name: "Update Harian", desc: "Pertemuan singkat tiap pagi untuk memastikan tidak ada tim yang kesulitan." }
+     
     ]
   },
   {
@@ -268,14 +268,14 @@ const scopeItems = [
     desc: "Menyiapkan dan mengunggah aplikasi ke server agar dapat diakses oleh pengguna luas.",
     details: [
       "Deployment ke server produksi",
-      "Konfigurasi hosting & domain",
-      "Maintenance & Error monitoring"
+      "Konfigurasi hosting & domain"
+    
     ],
-    tools: ["Vercel", "Docker", "AWS/Cloud"],
+    tools: ["Vercel"],
     methods: [
       { name: "Rilis Otomatis", desc: "Sistem yang langsung meng-update aplikasi setiap ada perubahan kode baru." },
-      { name: "Pengaturan Server", desc: "Menyiapkan 'rumah' di internet agar aplikasi bisa diakses 24 jam." },
-      { name: "Pantau Kesehatan", desc: "Mengawasi aplikasi secara real-time agar tahu jika ada error mendadak." }
+      { name: "Pengaturan Server", desc: "Menyiapkan 'rumah' di internet agar aplikasi bisa diakses 24 jam." }
+     
     ]
   }
 ];

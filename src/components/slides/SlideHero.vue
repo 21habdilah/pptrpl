@@ -36,7 +36,7 @@
       </h2>
 
       <div class="terminal-line">
-        <span class="prompt">awasombak@rpl:~$</span>
+        <span class="prompt">ombak@rpl:~$</span>
         <span class="cmd"> ./build_solution_with_process.sh</span>
         <span class="cursor">_</span>
       </div>
