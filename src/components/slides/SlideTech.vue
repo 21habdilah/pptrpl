@@ -128,8 +128,8 @@ const scopeItems = [
   {
     icon: '🧠',
     title: "Problem Solving",
-    summary: "Berpikir logis dan sistematis.",
-    desc: "Mengasah kemampuan berpikir sistematis untuk menyelesaikan masalah.",
+    summary: "Cari solusi masalah secara logis.",
+    desc: "Mengasah kemampuan berpikir sistematis untuk menyelesaikan masalah kompleks.",
     details: [
       "Mengurai masalah menjadi bagian kecil",
       "Menentukan solusi paling efektif",
@@ -137,148 +137,149 @@ const scopeItems = [
     ],
     tools: ["Flowchart", "Pseudocode"],
     methods: [
-      { name: "Analisis Masalah", desc: "Mempelajari masalah secara mendalam untuk menemukan akar masalah." },
-      { name: "Pemecahan Logika", desc: "Menerapkan logika untuk menyusun solusi optimal." },
-      { name: "Optimasi Solusi", desc: "Menentukan solusi yang paling efisien dan efektif." }
+      { name: "Breakdown Masalah", desc: "Memecah masalah besar menjadi bagian kecil agar lebih mudah dikelola." },
+      { name: "Pola Logika", desc: "Menyusun aturan langkah demi langkah untuk menyelesaikan masalah." },
+      { name: "Evaluasi Solusi", desc: "Memilih jalan keluar yang paling cepat dan paling sedikit risikonya." }
     ]
   },
   {
     icon: '🔍',
     title: "Analisis",
-    summary: "Identifikasi kebutuhan sistem.",
-    desc: "Memahami masalah dan kebutuhan pengguna untuk solusi tepat.",
+    summary: "Bedah kebutuhan & spesifikasi aplikasi.",
+    desc: "Memahami masalah dan kebutuhan pengguna untuk solusi yang tepat sasaran.",
     details: [
       "Analisis kebutuhan pengguna",
       "Identifikasi masalah sistem",
       "Penyusunan spesifikasi kebutuhan"
     ],
-    tools: ["BRD,Draw.io"],
+    tools: ["BRD", "Draw.io"],
     methods: [
-      { name: "Root Cause Analysis", desc: "Menemukan akar masalah secara sistematis." },
-      { name: "Use Case Diagram", desc: "Membuat diagram alur kasus penggunaan." },
-      { name: "Requirement Gathering", desc: "Mengumpulkan kebutuhan dari pengguna." }
+      { name: "Wawancara Pengguna", desc: "Menggali apa yang sebenarnya dibutuhkan oleh orang yang akan memakai aplikasi." },
+      { name: "Analisis Akar Masalah", desc: "Mencari sumber utama masalah, bukan hanya melihat gejalanya saja." },
+      { name: "Pemetaan Alur", desc: "Menggambarkan bagaimana pengguna akan berinteraksi dengan aplikasi." }
     ]
   },
   {
     icon: '📐',
     title: "Perancangan Sistem",
-    summary: "Mendesain solusi sebelum coding.",
-    desc: "Merancang sistem, UI/UX, dan struktur database agar efisien.",
+    summary: "Rancang alur & tampilan (Cetak Biru).",
+    desc: "Merancang sistem, antarmuka (UI/UX), dan struktur database sebelum tahap coding.",
     details: [
       "Perancangan UI/UX aplikasi",
       "Pembuatan diagram alur sistem",
       "Perancangan struktur database"
     ],
-    tools: ["Figma", "Wireframe"],
+    tools: ["Figma", "Wireframe.cc"],
     methods: [
-      { name: "Wireframing", desc: "Membuat kerangka antarmuka aplikasi." },
-      { name: "Diagram Alur", desc: "Mendesain alur kerja sistem secara visual." },
-      { name: "Prototyping", desc: "Membuat prototype interaktif sebelum coding." }
+      { name: "Sketsa Layar (Wireframe)", desc: "Membuat gambar hitam-putih tata letak tombol dan menu aplikasi." },
+      { name: "Desain Interaktif", desc: "Membuat simulasi aplikasi yang bisa diklik sebelum benar-benar dibuat." },
+      { name: "Arsitektur Data", desc: "Merancang skema penyimpanan agar data tidak berantakan dan mudah dicari." }
     ]
   },
   {
     icon: '💻',
     title: "Coding",
-    summary: "Implementasi program.",
-    desc: "Menerjemahkan desain dan analisis menjadi kode program.",
+    summary: "Tulis kode & bangun fitur.",
+    desc: "Menerjemahkan hasil desain dan analisis menjadi kode program yang fungsional.",
     details: [
-      "Frontend & backend integration",
-      "Penerapan clean code",
+      "Integrasi Frontend & Backend",
+      "Penerapan Clean Code",
       "Optimasi performa aplikasi"
     ],
-    tools: ["Vue.js", "Node.js"],
+    tools: ["Vue.js", "Node.js", "VS Code"],
     methods: [
-      { name: "Pair Programming", desc: "Bekerja berpasangan untuk menulis kode." },
-      { name: "Code Review", desc: "Memeriksa kode tim untuk kualitas dan standar." },
-      { name: "Test Driven Development", desc: "Menulis tes sebelum implementasi kode." }
+      { name: "Koding Standar", desc: "Menulis kode yang rapi agar mudah dibaca dan diperbaiki orang lain." },
+      { name: "Review Bersama", desc: "Saling mengecek kode antar teman setim untuk menghindari kesalahan." },
+      { name: "Penyusunan Komponen", desc: "Membuat potongan kode yang bisa digunakan kembali di fitur lain." }
     ]
   },
   {
     icon: '🗄️',
     title: "Database",
-    summary: "Pengelolaan data aplikasi.",
-    desc: "Menyimpan, mengelola, dan mengoptimalkan data sistem.",
+    summary: "Atur penyimpanan data aplikasi.",
+    desc: "Menyusun struktur penyimpanan, mengelola, dan mengoptimalkan pengambilan data.",
     details: [
-      "Perancangan tabel",
-      "Relasi data",
+      "Perancangan tabel & relasi",
+      "Integritas data",
       "Optimasi query"
     ],
-    tools: ["PostgreSQL", "MySQL"],
+    tools: ["PostgreSQL", "MySQL", "MongoDB"],
     methods: [
-      { name: "Normalisasi", desc: "Menyusun data agar terstruktur dan efisien." },
-      { name: "Indexing", desc: "Mempercepat pencarian data dengan indeks." },
-      { name: "Query Optimization", desc: "Meningkatkan performa query database." }
+      { name: "Perapihan Data", desc: "Menata struktur tabel agar data tidak dobel (duplikat) dan hemat memori." },
+      { name: "Pencarian Cepat", desc: "Membuat indeks agar aplikasi bisa mencari data dalam sekejap." },
+      { name: "Keamanan Data", desc: "Memastikan data hanya bisa diakses oleh orang yang berhak." }
     ]
   },
   {
     icon: '🧪',
     title: "Testing",
-    summary: "Pengujian sistem.",
-    desc: "Menjamin kualitas dan stabilitas sistem sebelum digunakan.",
+    summary: "Cek error & pastikan kualitas.",
+    desc: "Menjamin kualitas, keamanan, dan stabilitas sistem sebelum rilis ke pengguna.",
     details: [
-      "Unit testing",
+      "Unit & Integration testing",
       "User Acceptance Test (UAT)",
-      "Debugging"
+      "Debugging & perbaikan bug"
     ],
-    tools: ["pagespeed", "Testing Manual"],
+    tools: ["Jest", "Cypress", "PageSpeed Insights"],
     methods: [
-      { name: "Unit Test", desc: "Mengujicoba bagian kecil kode secara mandiri." },
-      { name: "Integration Test", desc: "Mengujicoba integrasi antar modul." },
-      { name: "Mengukur Performa", desc: " berfungsi sebagai perpustakaan dokumentasi teknis yang mengajarkan cara menerapkan standar web modern" }
+      { name: "Uji Fungsi", desc: "Mencoba setiap tombol dan fitur untuk memastikan semuanya berjalan benar." },
+      { name: "Tes Beban", desc: "Mencoba aplikasi diakses banyak orang sekaligus untuk melihat kekuatannya." },
+      { name: "Pencarian Bug", desc: "Sengaja merusak aplikasi untuk menemukan celah atau kesalahan tersembunyi." }
     ]
   },
   {
     icon: '📅',
     title: "Manajemen Proyek",
-    summary: "Pengaturan proses kerja.",
-    desc: "Mengatur timeline, tugas, dan sumber daya agar proyek lancar.",
+    summary: "Kelola jadwal & tugas tim.",
+    desc: "Mengatur timeline, pembagian tugas, dan sumber daya agar proyek selesai tepat waktu.",
     details: [
-      "Pengaturan timeline",
-      "Pembagian tugas",
-      "Monitoring progres"
+      "Pengaturan timeline & roadmap",
+      "Manajemen beban kerja tim",
+      "Monitoring progres harian"
     ],
-    tools: ["Agile", "Scrum"],
+    tools: ["Trello", "Jira", "Notion"],
     methods: [
-      { name: "Sprint Planning", desc: "Merencanakan sprint dan tugas tim." },
-      { name: "Daily Standup", desc: "Koordinasi harian tim proyek." },
-      { name: "Retrospective", desc: "Evaluasi proses kerja tim setelah sprint." }
+      { name: "Cicilan Tugas (Sprint)", desc: "Membagi pekerjaan besar menjadi tugas-tugas kecil per dua mingguan." },
+      { name: "Update Harian", desc: "Pertemuan singkat tiap pagi untuk memastikan tidak ada tim yang kesulitan." },
+      { name: "Evaluasi Tim", desc: "Diskusi di akhir tahap untuk memperbaiki cara kerja di tahap berikutnya." }
     ]
   },
   {
     icon: '🌿',
     title: "Versioning",
-    summary: "Kontrol versi kode.",
-    desc: "Mengelola versi kode agar kolaborasi tim efisien dan aman.",
+    summary: "Kelola riwayat & kolaborasi kode.",
+    desc: "Mengelola riwayat perubahan kode agar kolaborasi tim tetap aman dan sinkron.",
     details: [
-      "Branching",
-      "Merge code",
-      "Kolaborasi tim"
+      "Manajemen Branching",
+      "Penggabungan kode (Merge)",
+      "Resolusi konflik kode"
     ],
-    tools: ["Git", "GitHub"],
+    tools: ["Git", "GitHub", "GitLab"],
     methods: [
-      { name: "Git Flow", desc: "Mengatur alur kerja cabang Git." },
-      { name: "Pull Request", desc: "Mereview kode sebelum merge ke main branch." },
-      { name: "Code Review", desc: "Memastikan kualitas dan standar kode." }
+      { name: "Mesin Waktu Kode", desc: "Menyimpan catatan perubahan sehingga kode bisa dikembalikan jika ada error." },
+      { name: "Kerja Paralel", desc: "Memungkinkan banyak orang mengerjakan fitur berbeda tanpa mengganggu satu sama lain." },
+      { name: "Izin Gabung", desc: "Proses pengecekan sebelum kode baru diizinkan masuk ke sistem utama." }
     ]
   },
   {
     icon: '🚀',
     title: "Deploy",
-    summary: "Aplikasi siap digunakan.",
-    desc: "Menyiapkan dan mengunggah aplikasi ke lingkungan produksi.",
+    summary: "Rilis aplikasi ke internet/user.",
+    desc: "Menyiapkan dan mengunggah aplikasi ke server agar dapat diakses oleh pengguna luas.",
     details: [
-      "Deploy ke server",
-      "Konfigurasi hosting",
-      "Monitoring aplikasi"
+      "Deployment ke server produksi",
+      "Konfigurasi hosting & domain",
+      "Maintenance & Error monitoring"
     ],
-    tools: ["Vercel", "Cloud Server"],
+    tools: ["Vercel", "Docker", "AWS/Cloud"],
     methods: [
-      { name: "CI/CD", desc: "Otomatisasi proses build dan deploy." },
-      { name: "Server Setup", desc: "Menyiapkan server dan lingkungan produksi." },
-      { name: "Monitoring & Logging", desc: "Memantau performa dan error aplikasi." }
+      { name: "Rilis Otomatis", desc: "Sistem yang langsung meng-update aplikasi setiap ada perubahan kode baru." },
+      { name: "Pengaturan Server", desc: "Menyiapkan 'rumah' di internet agar aplikasi bisa diakses 24 jam." },
+      { name: "Pantau Kesehatan", desc: "Mengawasi aplikasi secara real-time agar tahu jika ada error mendadak." }
     ]
   }
 ];
+
 
 
 const itemsPerPage = 3;

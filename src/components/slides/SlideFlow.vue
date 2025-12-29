@@ -105,106 +105,105 @@ import SpotlightWrapper from "../SpotlightWrapper.vue";
 
 const tools = ref([
   { 
-    judul: "Rancang Bangun", // Judul baru: Fokus pada fase desain
+    judul: "Rancang Bangun", 
     name: "Desain & Perancangan", 
     expanded: false,
-    fullDesc: "Tahap pembuatan arsitektur visual dan alur logika untuk memastikan aplikasi sesuai dengan kebutuhan pengguna sebelum masuk ke tahap coding.",
+    fullDesc: "Proses pembuatan cetak biru visual dan alur logika aplikasi agar sesuai dengan kebutuhan pengguna sebelum mulai dikoding.",
     tech: [
-      { name: "Figma", desc: "Platform kolaborasi desain untuk menyusun UI/UX serta simulasi interaksi antarmuka." },
-      { name: "Draw.io", desc: "Alat pemetaan diagram untuk merancang alur logika dan arsitektur sistem agar terstruktur." }
+      { name: "Figma", desc: "Alat desain visual untuk membuat tampilan aplikasi dan simulasi klik antarmuka." },
+      { name: "Draw.io", desc: "Alat pembuat diagram untuk memetakan alur kerja sistem agar tidak ada logika yang buntu." }
     ],
     methods: [
-      { name: "Wireframing", desc: "Penyusunan tata letak kasar aplikasi untuk menentukan posisi elemen-elemen penting." },
-      { name: "Prototyping", desc: "Pembuatan model interaktif untuk menguji pengalaman pengguna sebelum aplikasi benar-benar dibuat." },
-      { name: "Flowchart", desc: "Penyusunan alur kerja sistem dari awal hingga akhir untuk menghindari logika yang terputus." }
+      { name: "Sketsa Layar", desc: "Menyusun tata letak kasar aplikasi untuk menentukan posisi tombol dan informasi penting." },
+      { name: "Simulasi Klik", desc: "Uji coba alur aplikasi menggunakan desain interaktif sebelum benar-benar diprogram." },
+      { name: "Pemetaan Alur", desc: "Menyusun diagram langkah-demi-langkah perjalanan pengguna di dalam aplikasi." }
     ]
   },
   { 
-    judul: "Fondasi Kode", // Judul baru: Fokus pada struktur awal
+    judul: "Fondasi Kode", 
     name: "Framework & Library", 
     expanded: false,
-    fullDesc: "Kumpulan 'fondasi dan cetakan' siap pakai untuk membangun struktur aplikasi yang standar, rapi, dan kokoh tanpa harus mulai dari nol.",
+    fullDesc: "Kumpulan kerangka kerja siap pakai untuk membangun struktur aplikasi yang rapi, cepat, dan standar industri.",
     tech: [
-      { name: "Vue.js", desc: "Teknologi utama untuk menciptakan antarmuka web yang interaktif dan responsif terhadap aksi pengguna." },
-      { name: "Nuxt.js", desc: "Framework tingkat lanjut untuk meningkatkan performa kecepatan akses dan kemudahan indeks mesin pencari (SEO)." },
-      { name: "Bootstrap", desc: "Koleksi komponen desain standar industri agar tampilan web terlihat konsisten dan profesional di berbagai perangkat." }
+      { name: "Vue.js", desc: "Teknologi untuk membangun halaman web yang hidup, gesit, dan reaktif terhadap input pengguna." },
+      { name: "Nuxt.js", desc: "Framework tambahan untuk mempercepat loading web dan memudahkan Google menemukan situs Anda." },
+      { name: "Bootstrap", desc: "Koleksi komponen desain siap pakai agar tampilan web rapi di HP maupun Laptop." }
     ],
     methods: [
-      { name: "Setup Project", desc: "Inisialisasi lingkungan kerja dan struktur folder standar sebelum pengembangan dimulai." },
-      { name: "Reusable Components", desc: "Penerapan konsep satu komponen untuk berbagai kebutuhan guna efisiensi kode." }
+      { name: "Persiapan Projek", desc: "Mengatur struktur folder dan aturan main koding agar tim bisa bekerja dengan seragam." },
+      { name: "Komponen Reusable", desc: "Membuat potongan kode yang bisa dipakai berulang kali untuk menghemat waktu." }
     ]
   },
-  
   { 
-    judul: "Pusat Data", // Judul baru: Fokus pada penyimpanan inti
+    judul: "Pusat Data", 
     name: "Database", 
     expanded: false,
-    fullDesc: "Pusat penyimpanan data digital yang bertugas menjaga seluruh informasi penting aplikasi agar tetap aman, teratur, dan mudah diakses.",
+    fullDesc: "Gudang penyimpanan digital tempat semua informasi penting aplikasi disimpan secara aman dan terorganisir.",
     tech: [
-      { name: "MySQL", desc: "Sistem manajemen database relasional yang andal untuk menangani volume data besar dengan stabil." },
-      { name: "PostgreSQL", desc: "Database tingkat lanjut yang fokus pada integritas data dan pemrosesan logika data yang kompleks." },
-      { name: "Supabase", desc: "Solusi backend instan yang mempercepat integrasi database dengan API otomatis." }
+      { name: "MySQL / Postgre", desc: "Sistem penyimpanan data yang sangat stabil dan mampu menampung jutaan informasi." },
+      { name: "Supabase", desc: "Layanan database modern yang memudahkan aplikasi terhubung ke data secara instan." }
     ],
     methods: [
-      { name: "Schema Design", desc: "Perancangan struktur tabel dan relasi data agar informasi tersimpan secara logis." },
-      { name: "Query Optimization", desc: "Teknik pengambilan data yang presisi untuk menjamin kecepatan akses meskipun data berjumlah besar." }
+      { name: "Struktur Tabel", desc: "Merancang rak-rak penyimpanan data agar saling terhubung secara logis." },
+      { name: "Optimasi Pencarian", desc: "Teknik khusus agar pengambilan data tetap kilat meski jumlah data sangat banyak." }
     ]
   },
   { 
-    judul: "Mesin Utama", // Judul baru: Fokus pada logika belakang
+    judul: "Mesin Belakang", 
     name: "Backend & Server", 
     expanded: false,
-    fullDesc: "Mesin utama di balik layar yang mengelola lalu lintas data, logika bisnis, serta menjaga keamanan sistem secara keseluruhan.",
+    fullDesc: "Mesin utama di balik layar yang mengolah logika bisnis, keamanan, dan menjembatani data ke tampilan.",
     tech: [
-      { name: "Node.js", desc: "Lingkungan runtime yang memungkinkan logika sisi server dijalankan dengan performa tinggi menggunakan JavaScript." },
-      { name: "npm / pnpm", desc: "Package manager untuk mengelola dan menginstal library pendukung aplikasi." } 
+      { name: "Node.js", desc: "Teknologi yang memungkinkan bahasa JavaScript menjalankan perintah berat di sisi server." },
+      { name: "npm / pnpm", desc: "Alat bantu untuk mengunduh dan mengelola berbagai modul tambahan aplikasi." } 
     ],
     methods: [
-      { name: "API Development", desc: "Pembangunan jalur komunikasi agar tampilan depan (Frontend) dapat berinteraksi dengan database." },
-      { name: "Server Configuration", desc: "Pengaturan lingkungan server guna memastikan aplikasi selalu aktif dan terlindungi dari ancaman luar." }
+      { name: "Pembuatan API", desc: "Membangun 'pintu akses' agar tampilan depan bisa mengambil data dari gudang data." },
+      { name: "Keamanan Server", desc: "Menyusun benteng pelindung agar data aplikasi tidak bocor atau diserang pihak luar." }
     ]
   },
   { 
-    judul: "Manajemen Kode", // Judul baru: Fokus pada kolaborasi
+    judul: "Kontrol Versi", 
     name: "Version Control", 
     expanded: false,
-    fullDesc: "Sistem dokumentasi perubahan kode yang memungkinkan pelacakan histori pengembangan dan kolaborasi tim yang aman.",
+    fullDesc: "Sistem perekam jejak perubahan kode yang memungkinkan kolaborasi banyak orang tanpa takut kode tertimpa.",
     tech: [
-      { name: "Git", desc: "Alat standar untuk mencatat setiap detail perubahan kode secara kronologis." },
-      { name: "GitHub", desc: "Platform berbasis cloud untuk penyimpanan kode terpusat dan manajemen kerja tim." }
+      { name: "Git", desc: "Alat pencatat riwayat setiap perubahan kode (seperti mesin waktu)." },
+      { name: "GitHub", desc: "Rumah online untuk menyimpan kode dan bekerja sama dengan tim dari mana saja." }
     ],
     methods: [
-      { name: "Branching", desc: "Pembuatan jalur pengembangan fitur baru secara terpisah agar tidak mengganggu kode utama." },
-      { name: "Pull Request", desc: "Mekanisme peninjauan kode oleh tim guna menjaga kualitas sebelum digabungkan ke sistem utama." }
+      { name: "Cabang Fitur", desc: "Mengerjakan fitur baru di 'jalur terpisah' agar tidak merusak aplikasi yang sudah jalan." },
+      { name: "Review Kode", desc: "Proses diskusi dan pengecekan kode rekan tim sebelum digabungkan ke aplikasi utama." }
     ]
   },
   { 
-    judul: "Validasi Kualitas", // Judul baru: Fokus pada pengujian
+    judul: "Uji Kualitas", 
     name: "Testing & Debugging", 
     expanded: false,
-    fullDesc: "Proses verifikasi kualitas untuk memastikan setiap fitur berfungsi sesuai rencana dan bebas dari gangguan teknis (bug).",
+    fullDesc: "Tahap pembersihan aplikasi dari kesalahan (bug) dan memastikan semua fitur bekerja 100% sesuai rencana.",
     tech: [
-      { name: "Browser DevTools", desc: "Instrumen analisis langsung di browser untuk mendeteksi kesalahan pada kode CSS, HTML, maupun JavaScript." }
+      { name: "DevTools", desc: "Alat bedah kode langsung di browser untuk melacak error secara real-time." }
     ],
     methods: [
-      { name: "Unit Test", desc: "Pengujian pada komponen terkecil aplikasi untuk memastikan fungsionalitasnya tepat sasaran." },
-      { name: "Debugging", desc: "Identifikasi akar masalah pada error dan perbaikan kode hingga sistem berjalan lancar." }
+      { name: "Tes Mandiri", desc: "Menguji setiap fungsi kecil secara otomatis untuk memastikan tidak ada logika yang salah." },
+      { name: "Pelacakan Error", desc: "Proses mencari akar masalah saat terjadi error dan memperbaikinya hingga tuntas." }
     ]
   },
   { 
-    judul: "Publikasi Global", // Judul baru: Fokus pada rilis produk
+    judul: "Rilis Publik", 
     name: "Deployment & Hosting", 
     expanded: false,
-    fullDesc: "Tahap publikasi aplikasi dari lingkungan pengembangan ke internet agar dapat diakses oleh pengguna secara global.",
+    fullDesc: "Proses menerbangkan aplikasi dari komputer lokal ke internet agar bisa diakses oleh siapa saja di seluruh dunia.",
     tech: [
-      { name: "Vercel", desc: "Layanan automasi deployment yang mengoptimalkan kecepatan akses situs web secara global." },
+      { name: "Vercel / Cloud", desc: "Layanan yang menyediakan 'rumah' di internet agar website selalu aktif 24 jam." },
     ],
     methods: [
-      { name: "CI/CD Pipeline", desc: "Otomatisasi proses pengujian dan pengunggahan kode ke server setiap kali ada perubahan." },
-      { name: "Server Setup", desc: "Persiapan lingkungan operasional di server agar aplikasi dapat terpublikasi serta berjalan tanpa henti." }
+      { name: "Update Otomatis", desc: "Sistem yang langsung memperbarui website setiap kali ada perbaikan kode terbaru." },
+      { name: "Rilis Publik", desc: "Proses final mempublikasikan aplikasi agar mendapatkan alamat (domain) resmi." }
     ]
   }
 ]);
+
 
 
 

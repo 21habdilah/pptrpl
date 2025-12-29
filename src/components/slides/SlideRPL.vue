@@ -81,35 +81,32 @@ const togglePoint = (index) => {
 const points = [
   {
     icon: "🧩",
-    title: "Pendekatan sistematis & terstruktur",
-    desc:
-      "RPL dikerjakan dengan tahapan yang jelas dan berurutan agar proses pengembangan dapat dikontrol, dievaluasi, dan menghasilkan sistem yang stabil."
+    title: "Pemecahan Masalah secara Logis",
+    desc: "Kemampuan memahami masalah dengan runtut sebelum mencari solusi. Tidak asal menulis kode, tetapi memikirkan langkah yang paling masuk akal agar masalah dapat diselesaikan dengan baik."
   },
   {
-    icon: "📊",
-    title: "Analisis kebutuhan pengguna",
-    desc:
-      "Tahap memahami permasalahan dan kebutuhan pengguna agar solusi yang dibangun benar-benar relevan dan tepat sasaran."
+    icon: "📐",
+    title: "Perancangan Struktur yang Kokoh",
+    desc: "Proses menyusun alur sistem dan bagian-bagian aplikasi sejak awal agar semuanya rapi. Struktur yang jelas membuat aplikasi lebih mudah dikembangkan dan tidak mudah bermasalah."
   },
   {
-    icon: "🧠",
-    title: "Perancangan sistem sebelum coding",
-    desc:
-      "Perancangan arsitektur, alur kerja, dan struktur data dilakukan terlebih dahulu untuk mencegah kesalahan besar saat pengembangan."
+    icon: "🗂️",
+    title: "Manajemen Proses Pengerjaan",
+    desc: "Cara mengatur proses pengembangan agar tidak berantakan. Setiap langkah dikerjakan secara bertahap supaya alurnya jelas dan hasilnya bisa dikontrol."
   },
   {
-    icon: "🧪",
-    title: "Pengujian untuk menjamin kualitas",
-    desc:
-      "Setiap fitur diuji untuk memastikan berjalan sesuai spesifikasi, minim kesalahan, dan aman digunakan."
+    icon: "🔍",
+    title: "Ketelitian dan Tanggung Jawab Hasil",
+    desc: "Kebiasaan mengecek kembali hasil kerja dan memperbaiki kesalahan yang ditemukan. Tujuannya agar aplikasi berjalan sesuai harapan dan dapat digunakan dengan aman."
   },
   {
-    icon: "♻️",
-    title: "Pemeliharaan & pengembangan berkelanjutan",
-    desc:
-      "Perangkat lunak terus diperbaiki dan dikembangkan agar tetap relevan terhadap perubahan kebutuhan dan teknologi."
+    icon: "🚀",
+    title: "Transformasi Kode Menjadi Solusi",
+    desc: "Mengubah baris-baris kode menjadi aplikasi yang benar-benar bisa dipakai. Fokusnya bukan hanya selesai dibuat, tetapi memberi manfaat nyata."
   }
 ];
+
+
 </script>
 
 <style scoped>

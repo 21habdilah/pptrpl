@@ -13,7 +13,7 @@
 
     <!-- HEADER -->
     <header class="header">
-      <h1>🚀 Deployment Flow</h1>
+      <h1>🚀 Deployment</h1>
       <p>Alur <b>Frontend</b> & <b>Backend</b> sampai online</p>
     </header>
 
@@ -22,7 +22,7 @@
       <div class="node dev">👨‍💻<br />Developer</div>
       <div class="arrow">↓</div>
 
-      <div class="node repo">📦<br />Git Repository</div>
+      <div class="node repo">📦<br />Github Repository</div>
       <div class="arrow">↓</div>
 
       <div class="split">
