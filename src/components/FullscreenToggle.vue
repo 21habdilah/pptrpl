@@ -1,21 +1,24 @@
 <template>
-  <button class="fs" @click="t">⛶</button>
+  <button class="fs" @click="toggle">⛶</button>
 </template>
 
 <script setup>
-const t = () =>
+const toggle = () => 
   !document.fullscreenElement
     ? document.documentElement.requestFullscreen()
-    : document.exitFullscreen();
+    : document.exitFullscreen()
 </script>
 
-<style>
+<style scoped>
 .fs {
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 999;
+  z-index: 100;
   border-radius: 50%;
   padding: 10px;
+  background: rgba(0,0,0,0.3);
+  color: #38bdf8;
+  cursor: pointer;
 }
 </style>
