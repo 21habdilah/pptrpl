@@ -10,6 +10,7 @@ import Slide08 from '../components/slides/Slide08_Visualisasi.vue';
 import Slide09 from '../components/slides/Slide09_Penegasan.vue';
 import Slide10 from '../components/slides/Slide10_Penutup.vue';
 import Slide11 from '../components/slides/Slide11_QnA.vue';
+import Slide12 from '../components/slides/Slide12_dampak.vue';
 
 export const slides = [
   { id: 1, component: SlideHero },
@@ -23,5 +24,6 @@ export const slides = [
   { id: 9, component: Slide08 },
   { id: 10, component: Slide09 },
   { id: 11, component: Slide10 },
-  { id: 12, component: Slide11 }
+  { id: 12, component: Slide11 },
+  { id: 13, component: Slide12 },
 ];

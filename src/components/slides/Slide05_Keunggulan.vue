@@ -1,206 +1,140 @@
 <template>
-  <SpotlightWrapper class="ppt-container">
-    
-    <!-- BACKGROUND FLOATING EMOJI -->
-    <div class="floating-bg">
-      <span v-for="n in 15" :key="n" class="floating-emoji">
-        {{ emojis[n % emojis.length] }}
-      </span>
-    </div>
-
-    <!-- HEADER SECTION -->
-    <header class="header-section">
-      <h2 class="ppt-title">Terima Kasih</h2>
-      <div class="divider"></div>
-      <p class="ppt-subtitle">Semoga apa yang disampaikan dapat bermanfaat.</p>
+  <div class="ppt-slide">
+    <header class="slide-header">
+      <div class="badge">CAPABILITIES // 2026</div>
+      <h1 class="title">Kemampuan <span class="accent">Neural Network</span></h1>
     </header>
 
-    <!-- SINGLE MESSAGE CARD (Tanpa Foto) -->
-    <div class="message-container">
-      <div
-        v-for="meme in memes"
-        :key="meme.title"
-        class="text-only-card"
-      >
-        <p class="quote-icon">"</p>
-        <p class="message-text">{{ meme.title }}</p>
+    <div class="capabilities-grid">
+      <!-- Grid dengan 5 kartu -->
+      <div v-for="(cap, index) in capabilities" :key="index" 
+           class="cap-card" 
+           :class="{ 'full-width': index === 4 }"
+           @click="openPopup(cap)">
+        <div class="cap-icon">{{ cap.icon }}</div>
+        <div class="cap-text">
+          <h3>{{ cap.title }}</h3>
+          <p>{{ cap.short }}</p>
+        </div>
       </div>
     </div>
 
-    <!-- STIKER ROKET MELUNCUR -->
-    <div class="rocket-launcher">
-      <span v-for="n in 3" :key="n" class="moving-rocket">🚀</span>
-    </div>
-
-    <!-- FOOTER CLOSING -->
-    <footer class="closing-statement">
-      <p class="wisdom-text">
-        "Demikian presentasi dari kami. Kebenaran dan kemudahan memahami datang dari <span>Allah SWT</span>, <br> 
-        sementara kekurangan dan kekeliruan adalah dari kami. Terima kasih."
-      </p>
-      <div class="social-tag">Stay Halal & Syukron!</div>
-    </footer>
-
-    <!-- ANIMASI OMBAK (WAVES) -->
-    <div class="wave-wrapper">
-      <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none">
-        <defs>
-          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(56, 189, 248, 0.3)" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(56, 189, 248, 0.5)" />
-          <use xlink:href="#gentle-wave" x="48" y="7" fill="#38bdf8" />
-        </g>
-      </svg>
-    </div>
-
-  </SpotlightWrapper>
+    <!-- POPUP BESAR UNTUK AUDIENS -->
+    <Transition name="zoom">
+      <div v-if="isPopupOpen" class="modal-overlay" @click.self="closePopup">
+        <div class="modal-window">
+          <button class="close-btn" @click="closePopup">✕</button>
+          <div class="modal-header">
+            <span class="m-icon">{{ activeData.icon }}</span>
+            <h2>{{ activeData.title }}</h2>
+          </div>
+          <p class="m-desc">{{ activeData.description }}</p>
+          <div class="m-image-box">
+            <img :src="`https://placehold.co{activeData.title}`" />
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, nextTick } from 'vue';
-import gsap from 'gsap';
-import SpotlightWrapper from '../SpotlightWrapper.vue';
+import { ref } from 'vue';
+const isPopupOpen = ref(false);
+const activeData = ref({});
 
-const memes = [
-  { title: 'Sebaik-baiknya aplikasi? Aplikasi Muslim Pro! 😎' },
+const capabilities = [
+  { 
+    icon: '👁️', 
+    title: 'Pengenalan Pola Kompleks', 
+    short: 'Mengenali wajah, suara, & bahasa.', 
+    description: 'Mampu mengenali pola yang tidak terstruktur dan sangat rumit, seperti wajah manusia, intonasi suara, dan struktur bahasa alami secara real-time.' 
+  },
+  { 
+    icon: '⚙️', 
+    title: 'Pembelajaran Otomatis', 
+    short: 'Belajar tanpa program manual.', 
+    description: 'Sistem belajar dan beradaptasi secara otomatis melalui proses pelatihan tanpa perlu instruksi kaku (hard-coding) dari pemrogram.' 
+  },
+  { 
+    icon: '🎯', 
+    title: 'Peningkatan Akurasi', 
+    short: 'Makin banyak data, makin cerdas.', 
+    description: 'Performanya terus meningkat secara konsisten seiring bertambahnya data yang diproses, sehingga hasil prediksi menjadi semakin presisi.' 
+  },
+  { 
+    icon: '🧠', 
+    title: 'Generalisasi Cerdas', 
+    short: 'Prediksi tepat pada data baru.', 
+    description: 'Mampu melakukan generalisasi dari data yang telah dipelajari untuk memberikan prediksi yang tepat pada situasi baru yang belum pernah ditemui.' 
+  },
+  { 
+    icon: '🌍', 
+    title: 'Fleksibilitas Tinggi', 
+    short: 'Diterapkan di berbagai bidang.', 
+    description: 'Dapat diterapkan di hampir semua industri, mulai dari pengenalan gambar medis, asisten virtual, hingga analisis risiko keuangan.' 
+  }
 ];
 
-const emojis = ['✨', '🙏', '💻', '🌙', '🔥', '🤖'];
-
-onMounted(() => {
-  nextTick(() => {
-    // 1. Animasi Header & Footer
-    gsap.from('.header-section', { opacity: 0, y: -50, duration: 1.2, ease: 'power3.out' });
-    gsap.from('.closing-statement', { opacity: 0, y: 30, delay: 0.8, duration: 1.5 });
-
-    // 2. Animasi Kartu Teks (Pop In)
-
-
-    // 3. Animasi Roket Meluncur (Looping)
-    gsap.to('.moving-rocket', {
-      y: '-120vh',
-      x: 'random(-100, 100)',
-      duration: 'random(4, 7)',
-      repeat: -1,
-      delay: 'random(0, 5)',
-      ease: 'power1.in',
-      onRepeat: function() {
-        gsap.set(this._targets, { left: Math.random() * 90 + '%' });
-      }
-    });
-
-    // 4. Animasi Ombak Bergerak
-    gsap.to(".parallax > use", {
-      x: -48,
-      repeat: -1,
-      duration: (i) => [4, 7, 10][i],
-      ease: "linear",
-    });
-
-    // 5. Animasi Floating Emojis (Background)
-    document.querySelectorAll('.floating-emoji').forEach((el) => {
-      gsap.set(el, { left: Math.random() * 90 + '%' , top: Math.random() * 90 + '%' });
-      gsap.to(el, {
-        x: 'random(-40, 40)',
-        y: 'random(-40, 40)',
-        rotation: 'random(-30, 30)',
-        duration: 'random(3, 6)',
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-      });
-    });
-  });
-});
+const openPopup = (data) => { activeData.value = data; isPopupOpen.value = true; };
+const closePopup = () => isPopupOpen.value = false;
 </script>
 
 <style scoped>
-.ppt-container {
-  width: 100%;
-  height: 100vh;
-  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-  color: #f8fafc;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 3rem 2rem;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
+.ppt-slide { padding: 4vh 6vw; height: 100%; color: white; display: flex; flex-direction: column; }
+.slide-header { text-align: center; margin-bottom: 2.5rem; }
+.badge { color: #6366f1; font-weight: 800; font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 10px; }
+.title { font-size: 4.2rem; font-weight: 900; margin: 0; line-height: 1.1; }
+.accent { color: #38bdf8; text-shadow: 0 0 30px rgba(56, 189, 248, 0.4); }
+
+.capabilities-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 1.5rem; 
 }
 
-.header-section { z-index: 10; }
-.ppt-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 800;
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.cap-card { 
+  background: rgba(30, 41, 59, 0.7); 
+  padding: 2rem 2.5rem; 
+  border-radius: 25px; 
+  border: 2px solid rgba(255,255,255,0.1); 
+  display: flex; 
+  align-items: center; 
+  gap: 25px; 
+  cursor: pointer; 
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-.divider {
-  width: 60px;
-  height: 4px;
-  background: #38bdf8;
-  margin: 1rem auto;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+/* Membuat kartu ke-5 memanjang di bawah */
+.cap-card.full-width {
+  grid-column: span 2;
+  width: 60%;
+  margin: 0 auto;
 }
 
-.message-container {
-  display: flex;
-  justify-content: center;
-  z-index: 10;
+.cap-card:hover { border-color: #38bdf8; transform: scale(1.03); background: rgba(56, 189, 248, 0.1); }
+.cap-icon { font-size: 4rem; }
+.cap-text h3 { font-size: 2.1rem; color: #38bdf8; margin: 0; }
+.cap-text p { font-size: 1.4rem; color: #cbd5e1; margin-top: 8px; line-height: 1.2; }
+
+/* MODAL / POPUP */
+.modal-overlay { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
+.modal-window { background: #0f172a; width: 90%; max-width: 1000px; padding: 3.5rem; border-radius: 40px; border: 3px solid #6366f1; position: relative; }
+.close-btn { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; color: #94a3b8; border: none; background: none; cursor: pointer; }
+.m-icon { font-size: 5rem; display: block; margin-bottom: 1rem; }
+.modal-window h2 { font-size: 3.2rem; color: #38bdf8; margin-bottom: 1rem; }
+.m-desc { font-size: 1.7rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 2rem; }
+.m-image-box img { width: 100%; border-radius: 20px; border: 2px solid #334155; }
+
+.zoom-enter-active, .zoom-leave-active { transition: 0.4s; }
+.zoom-enter-from, .zoom-leave-to { opacity: 0; transform: scale(0.95); }
+
+/* Penyesuaian layar kecil agar tidak overflow di layar laptop */
+@media (max-height: 800px) {
+  .title { font-size: 3.2rem; }
+  .cap-card { padding: 1.2rem 2rem; }
+  .cap-icon { font-size: 3rem; }
+  .cap-text h3 { font-size: 1.7rem; }
+  .cap-text p { font-size: 1.2rem; }
 }
-
-.text-only-card {
-  background: rgba(30, 41, 59, 0.5);
-  border: 2px solid rgba(56, 189, 248, 0.3);
-  backdrop-filter: blur(15px);
-  border-radius: 30px;
-  padding: 2.5rem;
-  max-width: 600px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-  position: relative;
-  transition: 0.4s ease;
-}
-
-.text-only-card:hover {
-  transform: scale(1.02);
-  border-color: #38bdf8;
-  box-shadow: 0 25px 60px rgba(56, 189, 248, 0.2);
-}
-
-.quote-icon {
-  font-family: serif;
-  font-size: 4rem;
-  color: #38bdf8;
-  line-height: 0;
-  margin-bottom: 1.5rem;
-  opacity: 0.5;
-}
-
-.message-text {
-  font-size: 1.5rem;
-  line-height: 1.4;
-  color: #f8fafc;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.closing-statement { z-index: 10; margin-bottom: 4rem; }
-.wisdom-text { font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; }
-.wisdom-text span { color: #38bdf8; font-weight: 700; }
-
-.rocket-launcher { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
-.moving-rocket { position: absolute; bottom: -50px; font-size: 3rem; filter: drop-shadow(0 0 10px #38bdf8); }
-
-.wave-wrapper { position: absolute; bottom: 0; left: 0; width: 100%; line-height: 0; z-index: 1; }
-.waves { width: 100%; height: 12vh; min-height: 80px; }
-
-.floating-bg { position: absolute; inset: 0; z-index: 0; }
-.floating-emoji { position: absolute; font-size: 2rem; opacity: 0.15; }
 </style>
