@@ -4,7 +4,7 @@
     <svg ref="networkSVG" class="network-svg"></svg>
 
     <div class="slide-fixed-box">
-      <!-- Header langsung muncul tanpa animasi -->
+      <!-- Header tampil langsung tanpa animasi -->
       <header class="slide-header">
         <div class="status-badge">
           <span class="pulse"></span>
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <!-- MODAL POPUP: BERSIH & TERORGANISIR -->
+    <!-- MODAL POPUP -->
     <Transition name="ppt-zoom" @after-enter="renderPopupVisual">
       <div v-if="isPopupOpen" class="modal-overlay" @click.self="closePopup">
         <div class="modal-window">
@@ -69,7 +69,6 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
 import * as d3 from "d3";
-import gsap from "gsap";
 
 const isPopupOpen = ref(false);
 const activeCard = ref({});
@@ -85,10 +84,8 @@ const cards = [
 const openPopup = (card) => { activeCard.value = card; isPopupOpen.value = true; };
 const closePopup = () => (isPopupOpen.value = false);
 
-// Background Animation (Tetap D3)
+// Background Animasi (D3)
 onMounted(() => {
-  // Hapus animasi muncul header, langsung tampil
-  // Inisialisasi jaringan saraf
   const svg = d3.select(networkSVG.value);
   const width = window.innerWidth, height = window.innerHeight;
   svg.attr("width", width).attr("height", height);
@@ -119,11 +116,10 @@ const renderPopupVisual = async () => {
     svg.append("circle").attr("cx", w/2).attr("cy", h/2).attr("r", 45).attr("fill", "none").attr("stroke", color).attr("stroke-width", 3);
     for(let i=0; i<3; i++) {
       const p = svg.append("circle").attr("r", 6).attr("fill", color);
-      gsap.fromTo(p.node(), { attr: { cx: 40, cy: (h/4)*(i+1) } }, { attr: { cx: w/2 - 45, cy: h/2 }, opacity: 0, duration: 2, repeat: -1, delay: i*0.4 });
+      // Efek animasi hilang agar tetap diam
     }
   } else {
     const mainCircle = svg.append("circle").attr("cx", w/2).attr("cy", h/2).attr("r", 30).attr("fill", color).attr("opacity", 0.6);
-    gsap.to(mainCircle.node(), { r: 60, opacity: 0, duration: 1.5, repeat: -1 });
   }
 };
 </script>
@@ -144,9 +140,9 @@ const renderPopupVisual = async () => {
   padding: 4rem; display: flex; flex-direction: column; 
 }
 
-/* Hapus animasi muncul, tampil langsung */
+/* Header muncul langsung tanpa animasi */
 .slide-header {
-  /* Tidak perlu diubah, tetap default */
+  /* Tidak perlu animasi, tampil langsung */
 }
 
 .main-title { 
@@ -167,9 +163,9 @@ const renderPopupVisual = async () => {
 .ppt-card {
   background: rgba(30, 41, 59, 0.4); padding: 1.8rem 2.2rem; border-radius: 24px;
   display: flex; align-items: center; gap: 1.8rem; cursor: pointer;
-  border-left: 8px solid var(--accent-color); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-left: 8px solid var(--accent-color); transition: none;
 }
-.ppt-card:hover { transform: translateX(25px); background: rgba(255,255,255,0.08); }
+.ppt-card:hover { transform: none; background: rgba(255,255,255,0.08); }
 
 .visual-icon { font-size: 3.5rem; }
 
@@ -204,10 +200,10 @@ const renderPopupVisual = async () => {
 
 /* Badges */
 .status-badge { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; color: #6366f1; font-weight: bold; letter-spacing: 1px; }
-.pulse { width: 12px; height: 12px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 15px #38bdf8; animation: glow 2s infinite; }
+.pulse { width: 12px; height: 12px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 15px #38bdf8; }
 @keyframes glow { 0% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } 100% { opacity: 0.5; transform: scale(1); } }
 
 /* Transitions */
-.ppt-zoom-enter-active, .ppt-zoom-leave-active { transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-.ppt-zoom-enter-from, .ppt-zoom-leave-to { opacity: 0; transform: scale(0.8) translateY(40px); }
+.ppt-zoom-enter-active, .ppt-zoom-leave-active { transition: none; }
+.ppt-zoom-enter-from, .ppt-zoom-leave-to { opacity: 1; transform: none; }
 </style>

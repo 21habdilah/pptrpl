@@ -130,7 +130,7 @@ onMounted(() => {
 /* HEADER */
 .status-badge { display: flex; align-items: center; gap: 10px; color: #6366f1; font-family: monospace; font-weight: bold; margin-bottom: 1rem; font-size: 1rem; }
 .pulse { width: 10px; height: 10px; background: #6366f1; border-radius: 50%; box-shadow: 0 0 10px #6366f1; animation: pulse-kf 2s infinite; }
-.main-title { font-size: 4rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; }
+.main-title { font-size: 2rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; }
 .accent { color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
 .main-subtitle { font-size: 1.5rem; color: #94a3b8; margin-top: 15px; margin-bottom: 3rem; }
 
