@@ -10,7 +10,7 @@
           <span class="pulse"></span>
           <span class="status-text">NEURAL_NETWORK_CONCEPT // CHAPTER_01</span>
         </div>
-        <h1 class="main-title">Apa Itu <span class="accent">Neural Network</span>?</h1>
+         <h2 class="main-title">APA ITU <span class="accent">NEURAL NETWORK ?</span></h2>
         <p class="main-subtitle">Sistem komputasi cerdas yang meniru arsitektur saraf biologis otak manusia.</p>
       </header>
 
@@ -87,8 +87,7 @@ const closePopup = () => (isPopupOpen.value = false);
 
 // Background Animation (Tetap D3)
 onMounted(() => {
-  // Hapus animasi muncul header, langsung tampil
-  // Inisialisasi jaringan saraf
+
   const svg = d3.select(networkSVG.value);
   const width = window.innerWidth, height = window.innerHeight;
   svg.attr("width", width).attr("height", height);
@@ -147,18 +146,15 @@ const renderPopupVisual = async () => {
 /* Hapus animasi muncul, tampil langsung */
 .slide-header {
   /* Tidak perlu diubah, tetap default */
+  
 }
 
-.main-title { 
-  font-size: 4.5rem; 
-  font-weight: 900; 
-  color: white; 
-  letter-spacing: -3px; 
-  margin: 0; 
-}
 
+.status-badge { display: flex; align-items: center; gap: 10px; color: #6366f1; font-family: monospace; font-weight: bold; margin-bottom: 1rem; font-size: 1rem; }
+.pulse { width: 10px; height: 10px; background: #6366f1; border-radius: 50%; box-shadow: 0 0 10px #6366f1; animation: pulse-kf 2s infinite; }
+.main-title { font-size: 2rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; }
 .accent { color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
-.main-subtitle { font-size: 1.6rem; color: #94a3b8; margin-top: 10px; }
+.main-subtitle { font-size: 1.5rem; color: #94a3b8; margin-top: 15px; margin-bottom: 3rem; }
 
 .slide-body { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; flex-grow: 1; align-items: center; }
 
