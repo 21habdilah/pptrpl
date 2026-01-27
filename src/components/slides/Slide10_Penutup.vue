@@ -6,7 +6,7 @@
         <!-- SISI KIRI: RINGKASAN & KESIMPULAN (6 POIN UTAMA) -->
         <div class="summary-panel">
           <header class="summary-header">
-            <div class="badge">FINAL_SUMMARY // 2026</div>
+            <div class="badge">FINAL_SUMMARY // CHAPTER_10</div>
             <h1 class="main-title">Intisari <span class="accent">Presentasi</span></h1>
           </header>
 

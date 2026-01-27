@@ -1,335 +1,232 @@
 <template>
-  <div class="main-wrapper">
-    <!-- 1. LOADER LAYER -->
-    <transition name="fade">
-      <div v-if="isLoading" class="loader-overlay">
-        <div class="loader-content">
-          <div class="orbit-spinner"></div>
-          <div class="logo-wrapper">
-            <span class="bracket-code">&lt;</span>
-            <span class="nn-text">NN</span>
-            <span class="bracket-code">/&gt;</span>
-          </div>
-          <div class="progress-container">
-            <div class="progress-bar"></div>
-          </div>
-          <p class="status-msg">{{ loadingStatus }}</p>
+  <div class="quantum-wrapper">
+    <!-- ENGINE: NEURAL SINGULARITY CANVAS -->
+    <canvas ref="neuralCanvas" class="neural-engine"></canvas>
+
+    <!-- INTERFACE: OVERCLOCKED HUD -->
+    <div class="hud-layer">
+      <!-- Top Bar: System Telemetry -->
+      <header class="hud-top">
+        <div class="telemetry-item">
+          <span class="label">ENGINE:</span>
+          <span class="value glitch-text" data-text="SINGULARITY_V2.6">SINGULARITY_V2.6</span>
         </div>
-      </div>
-    </transition>
+        <div class="telemetry-item">
+          <span class="label">LATENCY:</span>
+          <span class="value">0.003ms</span>
+        </div>
+        <div class="telemetry-item date-box">
+          <span class="value">28 // 01 // 2026</span>
+        </div>
+      </header>
 
-    <!-- 2. HERO CONTENT LAYER -->
-    <section class="hero-container" v-show="!isLoading">
-      <!-- Background Interaktif -->
-      <svg ref="bg" class="neural-canvas"></svg>
-      <div class="mouse-glow" ref="spotlightRef"></div>
-
-      <!-- Main Layout -->
-      <div class="content-frame">
-        
-        <!-- Top Header -->
-        <header class="header-meta zoom-proximity">
-          <span class="tag">PENGANTAR INFORMATIKA</span>
-          <div class="h-line"></div>
-          <span class="tag">SYNAPTIC CORE V1.0</span>
-        </header>
-
-        <!-- Center Branding -->
-        <main class="branding-group">
-          <div class="pillar-label zoom-proximity">KELOMPOK 7</div>
+      <!-- Center: The Core Branding -->
+      <main class="hud-center">
+        <div class="branding-box">
+          <div class="overclock-badge">KELOMPOK 7</div>
           <h1 class="main-title">
-            <span class="text-fill zoom-proximity">NEURAL</span>
-            <span class="text-outline zoom-proximity">NETWORK</span>
+            <span class="text-glow">NEURAL</span>
+            <span class="text-hollow">NETWORK</span>
           </h1>
-          <p class="tagline zoom-proximity">FONDASI KECERDASAN BUATAN MODERN</p>
-        </main>
+          <div class="data-scanner"></div>
+          <p class="tagline">FONDASI KECERDASAN BUATAN MODERN</p>
+        </div>
+      </main>
 
-        <!-- Bottom Info -->
-        <footer class="footer-info">
-          <div class="team-grid zoom-proximity">
-            <div class="member">HILAL ABDILAH</div>
-            <div class="v-divider"></div>
-            <div class="member">MUHAMMAD NAZIM</div>
-            <div class="v-divider"></div>
-            <div class="member">GILANG SAPUTRA</div>
-            <div class="v-divider"></div>
-            <div class="member">ARUM ROHIMAH</div>
-            <div class="v-divider"></div>
-            <div class="member">DINDA</div>
+      <!-- Bottom: Team & Hologram Logo -->
+      <footer class="hud-bottom">
+        <div class="team-grid">
+          <div v-for="(name, i) in team" :key="i" class="member-tag">
+            <div class="tag-id">0{{ i + 1 }}</div>
+            <div class="tag-name">{{ name }}</div>
           </div>
-          <div class="institution zoom-proximity">
-            TEKNIK INFORMATIKA • STMIK DCI TASIKMALAYA
+        </div>
+
+        <div class="institution-hologram">
+          <div class="hologram-text">
+            <h2 class="uni-name">STMIK DCI</h2>
+            <p class="uni-dept">INFORMATIKA • KELOMPOK 7</p>
           </div>
-        </footer>
+          <div class="logo-core-box">
+            <div class="quantum-ring"></div>
+            <div class="quantum-ring-inner"></div>
+            <img 
+              src="../../assets/logo.png" 
+              class="dci-logo-final"
+            />
+            <div class="light-beam"></div>
+          </div>
+        </div>
+      </footer>
+    </div>
 
-      </div>
-
-      <!-- System Telemetry -->
-      <div class="telemetry">
-        <div class="tel-item">25/01/2026</div>
-        <div class="tel-item">STATUS: STABLE</div>
-      </div>
-    </section>
+    <!-- POST-PROCESSING EFFECTS -->
+    <div class="noise-overlay"></div>
+    <div class="chromatic-aberration"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import * as d3 from "d3";
-import gsap from "gsap";
+import { ref, onMounted } from 'vue';
+import gsap from 'gsap';
 
-const isLoading = ref(true);
-const loadingStatus = ref("INITIALIZING...");
-const bg = ref(null);
-const spotlightRef = ref(null);
+const neuralCanvas = ref(null);
+const team = ["HILAL ABDILAH", "MUHAMMAD NAZIM", "GILANG SURYA", "ARUM ROHIMAH", "DINDA SRI RAHAYU"];
 
-onMounted(() => {
-  // Sequence Loading
-  const sequence = ["LOADING_NEURONS...", "BUILDING_SYNAPSES...", "OPTIMIZING_LAYERS...", "COMPLETE"];
-  sequence.forEach((s, i) => setTimeout(() => loadingStatus.value = s, i * 700));
+let ctx, points = [], width, height;
+let mouse = { x: -1000, y: -1000, active: false };
 
-  setTimeout(() => {
-    isLoading.value = false;
-    setTimeout(() => {
-      initD3();
-      initInteractivity();
-    }, 100);
-  }, 2800);
-});
+const initEngine = () => {
+  const canvas = neuralCanvas.value;
+  ctx = canvas.getContext('2d');
+  resize();
 
-function initD3() {
-  const svg = d3.select(bg.value);
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  svg.attr("viewBox", `0 0 ${w} ${h}`);
-
-  const layers = [w * 0.15, w * 0.4, w * 0.6, w * 0.85];
-  const nodes = [];
-  
-  layers.forEach((x, lIdx) => {
-    const count = lIdx === 0 || lIdx === 3 ? 5 : 8;
-    for(let i=0; i<count; i++) {
-      nodes.push({ id: `l${lIdx}n${i}`, x, y: (h/(count+1))*(i+1), color: lIdx === 3 ? '#06b6d4' : '#6366f1' });
-    }
-  });
-
-  const links = [];
-  nodes.forEach(s => nodes.forEach(t => {
-    if (t.x > s.x && (t.x - s.x) < w * 0.3) links.push({ s, t });
+  points = Array.from({ length: 100 }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    radius: Math.random() * 2 + 1
   }));
 
-  svg.append("g").selectAll("line").data(links).join("line")
-    .attr("x1", d => d.s.x).attr("y1", d => d.s.y).attr("x2", d => d.t.x).attr("y2", d => d.t.y)
-    .attr("stroke", "rgba(99,102,241,0.1)").attr("stroke-width", 1);
+  render();
+};
 
-  svg.append("g").selectAll("circle").data(nodes).join("circle")
-    .attr("cx", d => d.x).attr("cy", d => d.y).attr("r", 6)
-    .attr("fill", d => d.color).style("filter", "blur(1px)");
-}
+const render = () => {
+  ctx.fillStyle = "rgba(2, 6, 23, 0.2)"; 
+  ctx.fillRect(0, 0, width, height);
+  ctx.globalCompositeOperation = "lighter";
 
-function initInteractivity() {
-  // Spotlight
-  window.addEventListener("mousemove", e => {
-    if(!spotlightRef.value) return;
-    gsap.to(spotlightRef.value, {
-      background: `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(99,102,241,0.15) 0%, transparent 60%)`,
-      duration: 0.5
-    });
+  points.forEach((p, i) => {
+    // SINGULARITY PHYSICS (Mouse Gravity)
+    if (mouse.active) {
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 400) {
+        const force = (400 - dist) / 400;
+        p.vx += (dx / dist) * force * 0.6;
+        p.vy += (dy / dist) * force * 0.6;
+      }
+    }
 
-    // Proximity Zoom
-    document.querySelectorAll(".zoom-proximity").forEach(el => {
-      const r = el.getBoundingClientRect();
-      const d = Math.hypot(e.clientX - (r.left + r.width/2), e.clientY - (r.top + r.height/2));
-      const scale = d < 300 ? 1 + (1 - d/300) * 0.1 : 1;
-      gsap.to(el, { scale, duration: 0.4 });
-    });
+    p.vx *= 0.95; p.vy *= 0.95;
+    p.x += p.vx; p.y += p.vy;
+
+    // Canvas Border Wrap
+    if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+    if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+
+    // Draw Synaptic Links
+    for (let j = i + 1; j < points.length; j++) {
+      const p2 = points[j];
+      const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+      if (d < 150) {
+        ctx.strokeStyle = `rgba(99, 102, 241, ${0.2 * (1 - d/150)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    }
+
+    // Draw Node
+    ctx.fillStyle = "#06b6d4";
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fill();
   });
-}
+
+  ctx.globalCompositeOperation = "source-over";
+  requestAnimationFrame(render);
+};
+
+const resize = () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  neuralCanvas.value.width = width;
+  neuralCanvas.value.height = height;
+};
+
+onMounted(() => {
+  initEngine();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    mouse.active = true;
+  });
+
+  // GSAP BEYOND LIMIT ANIMATION
+  gsap.from(".main-title", { scale: 1.5, opacity: 0, duration: 2, ease: "expo.out" });
+  gsap.from(".member-tag", { x: -50, opacity: 0, stagger: 0.1, duration: 1, ease: "back.out" });
+});
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com');
 
-/* --- RESET & WRAPPER --- */
-.main-wrapper {
-  background: #000;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  font-family: 'Outfit', sans-serif;
+.quantum-wrapper {
+  background: #010409; width: 100vw; height: 100vh;
+  overflow: hidden; position: relative;
+  font-family: 'JetBrains Mono', monospace; color: #fff;
 }
 
-/* --- CLEAN LOADER --- */
-.loader-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: #020617;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.neural-engine { position: absolute; inset: 0; z-index: 1; }
+
+.hud-layer {
+  position: relative; z-index: 10; height: 100%;
+  display: flex; flex-direction: column; padding: 2.5rem;
+  pointer-events: none; background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 100%);
 }
+.hud-layer * { pointer-events: auto; }
 
-.loader-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* TOP TELEMETRY */
+.hud-top { display: flex; gap: 40px; border-bottom: 1px solid rgba(99, 102, 241, 0.2); padding-bottom: 15px; }
+.telemetry-item { display: flex; flex-direction: column; }
+.label { font-size: 0.6rem; color: #6366f1; font-weight: bold; }
+.value { font-size: 0.8rem; letter-spacing: 2px; }
+.date-box { margin-left: auto; color: #06b6d4; }
+
+/* CENTER BRANDING */
+.hud-center { flex: 1; display: flex; justify-content: center; align-items: center; }
+.branding-box { text-align: center; position: relative; }
+.overclock-badge { 
+  display: inline-block; padding: 4px 15px; background: #6366f1; 
+  font-size: 1.7rem; font-weight: 900; letter-spacing: 5px; margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); transform: skewX(-15deg);
 }
+.main-title { font-family: 'Orbitron', sans-serif; font-size: 10rem; margin: 0; line-height: 1; }
+.text-glow { color: #fff; text-shadow: 0 0 30px rgba(99, 102, 241, 0.8); }
+.text-hollow { color: transparent; -webkit-text-stroke: 1.5px #06b6d4; margin-left: 20px; }
+.tagline { letter-spacing: 12px; color: #94a3b8; font-size: 2rem; margin-top: 2rem; opacity: 0.8; }
 
-.logo-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 80px;
-  font-weight: 800;
-  color: #fff;
+/* BOTTOM HUD */
+.hud-bottom { display: flex;  justify-content: space-between; align-items: flex-end; }
+.team-grid {  display: grid; grid-template-columns: repeat(5, 1fr); gap: 30px; }
+.member-tag { 
+  display: flex; gap: 30px; background: rgba(255,255,255,0.03); 
+  padding: 10px 20px; border-radius: 4px; border-left: 2px solid #06b6d4;
 }
+.tag-id { color: #6366f1; font-weight: bold; font-size: 0.7rem; }
+.tag-name { font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; }
 
-.bracket-code { color: #6366f1; opacity: 0.6; font-family: 'JetBrains Mono'; }
-.nn-text { letter-spacing: 10px; text-shadow: 0 0 30px #6366f1; }
+/* HOLOGRAM LOGO DCI */
+.institution-hologram { display: flex; align-items: center; gap: 30px; }
+.hologram-text { text-align: right; }
+.uni-name { font-family: 'Orbitron'; font-size: 1.5rem; margin: 0; color: #fff; }
+.uni-dept { font-size: 0.7rem; color: #6366f1; letter-spacing: 2px; }
 
-.progress-container {
-  width: 280px;
-  height: 2px;
-  background: rgba(255,255,255,0.05);
-  margin-top: 40px;
-  border-radius: 2px;
-  overflow: hidden;
-}
+.logo-core-box { position: relative; width: 120px; height: 120px; display: flex; justify-content: center; align-items: center; }
+.dci-logo-final { width: 70px; z-index: 10; filter: drop-shadow(0 0 15px #6366f1); animation: float 3s ease-in-out infinite; }
+.quantum-ring, .quantum-ring-inner { position: absolute; border: 2px solid rgba(6, 182, 212, 0.3); border-radius: 50%; }
+.quantum-ring { width: 100%; height: 100%; border-top-color: #6366f1; animation: rotate 4s linear infinite; }
+.quantum-ring-inner { width: 80%; height: 80%; border-bottom-color: #fff; border-style: dashed; animation: rotate 6s linear infinite reverse; }
 
-.progress-bar {
-  width: 100%;
-  height: 100%;
-  background: #6366f1;
-  transform: translateX(-100%);
-  animation: load 2.5s forwards cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* POST-PROCESSING */
+.noise-overlay { position: absolute; inset: 0; background: url('https://media.giphy.com'); opacity: 0.02; pointer-events: none; z-index: 100; }
+.chromatic-aberration { position: absolute; inset: 0; background: radial-gradient(circle, transparent 50%, rgba(255,0,0,0.02) 80%, rgba(0,255,255,0.02) 100%); pointer-events: none; }
 
-.status-msg {
-  margin-top: 15px;
-  font-family: 'JetBrains Mono';
-  font-size: 0.7rem;
-  letter-spacing: 4px;
-  color: #64748b;
-}
-
-/* --- HERO SECTION --- */
-.hero-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.neural-canvas { position: absolute; inset: 0; z-index: 1; }
-.mouse-glow { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-
-.content-frame {
-  position: relative;
-  z-index: 10;
-  width: 90%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-}
-
-.content-frame * { pointer-events: auto; }
-
-/* HEADER META */
-.header-meta {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.tag { font-family: 'JetBrains Mono'; font-size: 0.75rem; letter-spacing: 4px; color: #6366f1; }
-.h-line { width: 60px; height: 1px; background: rgba(99,102,241,0.3); }
-
-/* BRANDING GROUP */
-.branding-group { text-align: center; }
-
-.pillar-label {
-  display: inline-block;
-  background: #6366f1;
-  color: #fff;
-  padding: 6px 25px;
-  font-weight: 800;
-  letter-spacing: 6px;
-  transform: skewX(-15deg);
-  margin-bottom: 1.5rem;
-}
-
-.main-title {
-  font-size: clamp(4rem, 12vw, 9rem);
-  font-weight: 800;
-  line-height: 0.8;
-  margin: 0;
-}
-
-.text-fill { color: #fff; }
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 2px #06b6d4;
-  margin-left: 15px;
-}
-
-.tagline {
-  font-size: clamp(1rem, 2vw, 1.8rem);
-  font-weight: 300;
-  letter-spacing: 12px;
-  margin-top: 2rem;
-  color: #94a3b8;
-  text-transform: uppercase;
-}
-
-/* FOOTER INFO */
-.footer-info {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.team-grid {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.member { font-weight: 600; letter-spacing: 2px; color: #f8fafc; font-size: 1.1rem; }
-.v-divider { width: 1px; height: 15px; background: #06b6d4; }
-.institution {
-  font-family: 'JetBrains Mono';
-  font-size: 0.85rem;
-  color: #475569;
-  letter-spacing: 3px;
-}
-
-/* TELEMETRY */
-.telemetry {
-  position: absolute;
-  bottom: 30px;
-  right: 40px;
-  text-align: right;
-  z-index: 10;
-}
-
-.tel-item {
-  font-family: 'JetBrains Mono';
-  font-size: 0.6rem;
-  color: #1e293b;
-  letter-spacing: 2px;
-}
-
-/* ANIMATIONS */
-@keyframes load { to { transform: translateX(0); } }
-.fade-leave-active { transition: opacity 1s ease; }
-.fade-leave-to { opacity: 0; }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes float { 0%, 100% { transform: translateY(0); filter: brightness(1); } 50% { transform: translateY(-15px); filter: brightness(1.3); } }
 </style>

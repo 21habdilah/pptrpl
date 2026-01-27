@@ -1,7 +1,7 @@
 <template>
   <div class="ppt-slide">
     <header class="slide-header">
-      <div class="badge">LOGIC_GATE // ACTIVATION_FUNCTION</div>
+      <div class="badge">CHAPTER_07 // ACTIVATION_FUNCTION</div>
       <h1 class="title">Fungsi <span class="accent">Aktivasi</span></h1>
       <p class="subtitle">Saklar cerdas yang menentukan apakah informasi diteruskan atau tidak.</p>
     </header>
@@ -12,42 +12,45 @@
         <p>Berfungsi memperkenalkan <strong>Non-Linearitas</strong>, memungkinkan jaringan mempelajari pola rumit yang tidak bisa diselesaikan garis lurus.</p>
       </div>
 
-      <!-- GRID FUNGSI -->
-      <div class="function-grid">
-        <div class="func-card" @click="openPopup('Sigmoid', 'S-Curve', '0 hingga 1', 'Ideal untuk klasifikasi biner (Ya/Tidak).')">
-          <div class="graph sigmoid"></div>
-          <h3>Sigmoid</h3>
-          <span class="range">Range: 0 to 1</span>
-        </div>
+     <div class="function-grid">
+      <!-- Sigmoid -->
+      <div class="func-card" @click="openPopup('Sigmoid', 'S-Curve', '0 hingga 1', 'Fungsi ini memetakan input ke dalam rentang probabilitas 0-1. Sangat berguna untuk layer output pada klasifikasi biner.', 'https://media.geeksforgeeks.org/wp-content/uploads/20241029120537926197/Sigmoid-Activation-Function.png')">
+        <div class="graph sigmoid"></div>
+        <h3>Sigmoid</h3>
+        <span class="range">Range: 0 to 1</span>
+      </div>
 
-        <div class="func-card highlight" @click="openPopup('ReLU', 'Rectified Linear', '0 hingga x', 'Paling populer & efisien untuk Deep Learning saat ini.')">
-          <div class="graph relu"></div>
-          <h3>ReLU</h3>
-          <span class="range">Range: 0 to Max</span>
-        </div>
+      <!-- ReLU (Highlight) -->
+      <div class="func-card highlight" @click="openPopup('ReLU', 'Rectified Linear', '0 hingga Max', 'Standar industri untuk Deep Learning. Mengubah nilai negatif menjadi 0 untuk mempercepat pelatihan jaringan saraf.', 'https://media.geeksforgeeks.org/wp-content/uploads/20241029120618881107/Tanh-Activation-Function.png')">
+        <div class="graph relu"></div>
+        <h3>ReLU</h3>
+        <span class="range">Range: 0 to Max</span>
+      </div>
 
-        <div class="func-card" @click="openPopup('Tanh', 'Hyperbolic Tangent', '-1 hingga 1', 'Mirip sigmoid namun pusatnya di angka 0.')">
-          <div class="graph tanh"></div>
-          <h3>Tanh</h3>
-          <span class="range">Range: -1 to 1</span>
-        </div>
+      <!-- Tanh -->
+      <div class="func-card" @click="openPopup('Tanh', 'Hyperbolic Tangent', '-1 hingga 1', 'Menghasilkan output antara -1 hingga 1. Karena berpusat di nol (zero-centered), fungsi ini seringkali lebih unggul dari Sigmoid.', 'https://media.geeksforgeeks.org/wp-content/uploads/20241029120652402777/relu-activation-function.png')">
+        <div class="graph tanh"></div>
+        <h3>Tanh</h3>
+        <span class="range">Range: -1 to 1</span>
       </div>
     </div>
 
+    </div>
+
     <!-- POPUP DETAIL -->
-    <Transition name="zoom">
+    <Transition name="fade">
       <div v-if="isPopupOpen" class="modal-overlay" @click.self="closePopup">
         <div class="modal-content">
-          <button class="close-btn" @click="closePopup">✕</button>
-          <div class="m-header">
-            <h2>Fungsi {{ activeData.name }}</h2>
-            <span class="m-badge">{{ activeData.type }}</span>
+          <span class="close-btn" @click="closePopup">&times;</span>
+          <h2>{{ activeData.name }}</h2>
+          <p class="subtitle">{{ activeData.type }}</p>
+          
+          <img :src="activeData.image" :alt="activeData.name" class="popup-img">
+          
+          <div class="info-box">
+            <p><strong>Rentang Output:</strong> {{ activeData.range }}</p>
+            <p>{{ activeData.desc }}</p>
           </div>
-          <p class="m-desc">{{ activeData.desc }}</p>
-          <div class="m-visual-box">
-             <img :src="`https://placehold.co{activeData.name}`" />
-          </div>
-          <div class="m-footer">Karakteristik: {{ activeData.range }}</div>
         </div>
       </div>
     </Transition>
@@ -56,14 +59,20 @@
 
 <script setup>
 import { ref } from 'vue';
-const isPopupOpen = ref(false);
-const activeData = ref({});
 
-const openPopup = (name, type, range, desc) => {
-  activeData.value = { name, type, range, desc };
+const isPopupOpen = ref(false);
+const activeData = ref({ name: '', type: '', range: '', desc: '', image: '' });
+
+// HANYA GUNAKAN SATU DEKLARASI INI
+const openPopup = (name, type, range, desc, image) => {
+  activeData.value = { name, type, range, desc, image };
   isPopupOpen.value = true;
 };
-const closePopup = () => isPopupOpen.value = false;
+
+const closePopup = () => {
+  isPopupOpen.value = false;
+};
+
 </script>
 
 <style scoped>
@@ -82,9 +91,9 @@ const closePopup = () => isPopupOpen.value = false;
 .func-card.highlight { border-color: #6366f1; background: rgba(99, 102, 241, 0.1); }
 
 .graph { height: 120px; width: 100%; margin-bottom: 1.5rem; background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 10px #38bdf8); }
-.sigmoid { background-image: url('https://upload.wikimedia.org'); }
-.relu { background-image: url('https://upload.wikimedia.org'); }
-.tanh { background-image: url('https://upload.wikimedia.org'); }
+.sigmoid { background-image: url('https://media.geeksforgeeks.org/wp-content/uploads/20241029120537926197/Sigmoid-Activation-Function.png'); }
+.relu { background-image: url('https://media.geeksforgeeks.org/wp-content/uploads/20241029120618881107/Tanh-Activation-Function.png'); }
+.tanh { background-image: url('https://media.geeksforgeeks.org/wp-content/uploads/20241029120652402777/relu-activation-function.png'); }
 
 .func-card h3 { font-size: 2rem; margin: 0; color: #38bdf8; }
 .range { font-family: monospace; color: #64748b; font-size: 1.1rem; }

@@ -4,7 +4,7 @@
 <template>
   <div class="ppt-slide-wrapper">
     <header class="slide-header">
-      <div class="badge">NETWORK_TYPES // ARCHITECTURES</div>
+      <div class="badge">CHAPTER_09 // ARCHITECTURES</div>
       <h1 class="title">Jenis-Jenis <span class="accent">Neural Network</span></h1>
       <p class="subtitle">Setiap arsitektur dirancang untuk menangani jenis data yang berbeda.</p>
     </header>

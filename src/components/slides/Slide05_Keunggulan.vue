@@ -1,7 +1,7 @@
 <template>
   <div class="ppt-slide">
     <header class="slide-header">
-      <div class="badge">CAPABILITIES // 2026</div>
+      <div class="badge">CAPABILITIES // CHAPTER_04</div>
       <h1 class="title">Kemampuan <span class="accent">Neural Network</span></h1>
     </header>
 
@@ -30,7 +30,7 @@
           </div>
           <p class="m-desc">{{ activeData.description }}</p>
           <div class="m-image-box">
-            <img :src="`https://placehold.co{activeData.title}`" />
+          <img :src="activeData.image" :alt="activeData.title" />
           </div>
         </div>
       </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import { image } from 'd3';
 import { ref } from 'vue';
 const isPopupOpen = ref(false);
 const activeData = ref({});
@@ -48,31 +49,36 @@ const capabilities = [
     icon: '👁️', 
     title: 'Pengenalan Pola Kompleks', 
     short: 'Mengenali wajah, suara, & bahasa.', 
-    description: 'Mampu mengenali pola yang tidak terstruktur dan sangat rumit, seperti wajah manusia, intonasi suara, dan struktur bahasa alami secara real-time.' 
+    description: 'Mampu mengenali pola yang tidak terstruktur dan sangat rumit, seperti wajah manusia, intonasi suara, dan struktur bahasa alami secara real-time.',
+    image: 'https://kantinit.com/wp-content/uploads/2023/04/pengenalan-pola-adalah.png' 
   },
   { 
     icon: '⚙️', 
     title: 'Pembelajaran Otomatis', 
     short: 'Belajar tanpa program manual.', 
-    description: 'Sistem belajar dan beradaptasi secara otomatis melalui proses pelatihan tanpa perlu instruksi kaku (hard-coding) dari pemrogram.' 
+    description: 'Sistem belajar dan beradaptasi secara otomatis melalui proses pelatihan tanpa perlu instruksi kaku (hard-coding) dari pemrogram.',
+    image:'https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTozMWJhYjUxN2I5MzdhMjRmOjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAxODcyYjkwMzM2ODowMDA2NDk0ZDIyNzk4ZjlmEAI='
   },
   { 
     icon: '🎯', 
     title: 'Peningkatan Akurasi', 
     short: 'Makin banyak data, makin cerdas.', 
-    description: 'Performanya terus meningkat secara konsisten seiring bertambahnya data yang diproses, sehingga hasil prediksi menjadi semakin presisi.' 
+    description: 'Performanya terus meningkat secara konsisten seiring bertambahnya data yang diproses, sehingga hasil prediksi menjadi semakin presisi.',
+    image:'https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTozMzUwMzE5MGY0NzBlMzIzOjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAxODcyYjkwMzM2ODowMDA2NDk0ZDUyMjZiYzJmEAI='
   },
   { 
     icon: '🧠', 
     title: 'Generalisasi Cerdas', 
     short: 'Prediksi tepat pada data baru.', 
-    description: 'Mampu melakukan generalisasi dari data yang telah dipelajari untuk memberikan prediksi yang tepat pada situasi baru yang belum pernah ditemui.' 
+    description: 'Mampu melakukan generalisasi dari data yang telah dipelajari untuk memberikan prediksi yang tepat pada situasi baru yang belum pernah ditemui.',
+    image:'https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTozNTQ4YmNjYWYyYjZiYzdmOjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAxODcyYjkwMzM2ODowMDA2NDk0ZDUzOGE0NTJmEAI='
   },
   { 
     icon: '🌍', 
     title: 'Fleksibilitas Tinggi', 
     short: 'Diterapkan di berbagai bidang.', 
-    description: 'Dapat diterapkan di hampir semua industri, mulai dari pengenalan gambar medis, asisten virtual, hingga analisis risiko keuangan.' 
+    description: 'Dapat diterapkan di hampir semua industri, mulai dari pengenalan gambar medis, asisten virtual, hingga analisis risiko keuangan.',
+    image:'https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTozYzhhYTliZTAzZDJhZThhOjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAxODcyYjkwMzM2ODowMDA2NDk0ZDZkYmMzOGVmEAI='  
   }
 ];
 
@@ -119,18 +125,36 @@ const closePopup = () => isPopupOpen.value = false;
 
 /* MODAL / POPUP */
 .modal-overlay { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
-.modal-window { background: #0f172a; width: 90%; max-width: 1000px; padding: 3.5rem; border-radius: 40px; border: 3px solid #6366f1; position: relative; }
+.modal-window { 
+  background: #0f172a; 
+  width: 90%;           /* Gunakan 90% lebar layar */
+  max-width: 1200px;    /* Batas maksimal lebar */
+  padding: 3.5rem; 
+  border-radius: 40px; 
+  border: 3px solid #6366f1; 
+  position: relative; 
+}
 .close-btn { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; color: #94a3b8; border: none; background: none; cursor: pointer; }
 .m-icon { font-size: 5rem; display: block; margin-bottom: 1rem; }
 .modal-window h2 { font-size: 3.2rem; color: #38bdf8; margin-bottom: 1rem; }
 .m-desc { font-size: 1.7rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 2rem; }
-.m-image-box img { width: 100%; border-radius: 20px; border: 2px solid #334155; }
+.m-image-box img {
+  width: 100%;          /* Gambar akan memenuhi lebar modal */
+  max-height: 500px;    /* Tinggikan batasnya agar gambar bisa lebih besar */
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 2px solid #334155;
+  object-fit: cover;    /* Mengisi ruang tanpa membuat gambar gepeng */
+}
 
 .zoom-enter-active, .zoom-leave-active { transition: 0.4s; }
 .zoom-enter-from, .zoom-leave-to { opacity: 0; transform: scale(0.95); }
 
 /* Penyesuaian layar kecil agar tidak overflow di layar laptop */
 @media (max-height: 800px) {
+  .modal-window { padding: 2rem; }
+  .m-image-box img { max-height: 350px; }
   .title { font-size: 3.2rem; }
   .cap-card { padding: 1.2rem 2rem; }
   .cap-icon { font-size: 3rem; }

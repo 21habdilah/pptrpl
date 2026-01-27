@@ -1,90 +1,64 @@
 <template>
-  <!-- Background utama tetap memenuhi layar -->
   <section class="presentation-space">
+    <!-- Background Animasi Jaringan Saraf (D3.js) -->
     <svg ref="networkSVG" class="network-svg"></svg>
 
-    <!-- BOX SLIDE (ASPEK RASIO 16:9) -->
     <div class="slide-fixed-box">
-      
+      <!-- Header langsung muncul tanpa animasi -->
       <header class="slide-header">
         <div class="status-badge">
           <span class="pulse"></span>
           <span class="status-text">NEURAL_NETWORK_CONCEPT // CHAPTER_01</span>
         </div>
         <h1 class="main-title">Apa Itu <span class="accent">Neural Network</span>?</h1>
-        <p class="main-subtitle">Model komputasi yang meniru jaringan saraf otak manusia.</p>
+        <p class="main-subtitle">Sistem komputasi cerdas yang meniru arsitektur saraf biologis otak manusia.</p>
       </header>
 
-        <div class="slide-body">
-        <!-- KOLOM KIRI (KONTEN DISESUAIKAN) -->
+      <div class="slide-body">
+        <!-- KOLOM KIRI: KARTU INFORMASI -->
         <div class="content-column">
-          <!-- KARTU 1: NEURON -->
-          <div class="ppt-card" @click="openPopup(
-            'Neuron Buatan',
-            '🧠',
-            'Neuron buatan adalah unit pemrosesan terkecil yang berfungsi menerima data, memprosesnya, lalu mengirimkan hasilnya ke neuron lain, layaknya sel saraf biologis.',
-            'https://placehold.co'
-          )">
-            <span class="card-icon">🧠</span>
-            <div class="card-info">
-              <h3>Neuron Buatan</h3>
-              <p>Unit pemroses yang menerima dan meneruskan data.</p>
+          <div class="ppt-card" v-for="card in cards" :key="card.title" 
+               @click="openPopup(card)"
+               :style="{ '--accent-color': card.color }">
+            <div class="card-icon-box">
+               <span class="visual-icon">{{ card.icon }}</span>
             </div>
-          </div>
-
-          <!-- KARTU 2: BOBOT & KONEKSI -->
-          <div class="ppt-card" @click="openPopup(
-            'Koneksi dan Bobot',
-            '🔗',
-            'Bobot adalah kekuatan koneksi antar neuron yang mengatur seberapa besar pengaruh sebuah input terhadap output yang dihasilkan.',
-            'https://placehold.co'
-          )">
-            <span class="card-icon">🔗</span>
             <div class="card-info">
-              <h3>Koneksi dan Bobot</h3>
-              <p>Mengatur kekuatan pengaruh input terhadap output.</p>
-            </div>
-          </div>
-
-          <!-- KARTU 3: PROSES BELAJAR -->
-          <div class="ppt-card" @click="openPopup(
-            'Proses Belajar',
-            '📚',
-            'Neural Network mempelajari pola dengan menyesuaikan bobot secara otomatis melalui algoritma (seperti backpropagation) agar hasil prediksi semakin akurat.',
-            'https://placehold.co'
-          )">
-            <span class="card-icon">📚</span>
-            <div class="card-info">
-              <h3>Proses Belajar</h3>
-              <p>Penyesuaian bobot untuk mengenali pola dan prediksi.</p>
+              <h3>{{ card.title }}</h3>
+              <p>{{ card.short }}</p>
             </div>
           </div>
         </div>
 
-        <!-- KOLOM KANAN (VISUAL) -->
+        <!-- KOLOM KANAN: VISUAL HERO -->
         <div class="visual-column">
           <div class="hero-image-frame">
-            <!-- Gambar yang lebih representatif untuk Otak Digital -->
-            <img src="https://placehold.co" alt="AI Visual" />
-            <div class="image-label">Prinsip Kerja: <span>Otak Digital</span></div>
+            <img src="https://mriquestions.com/uploads/3/4/5/7/34572113/perceptron-with-neuron_1.png" alt="Neuron Anatomy" />
+            <div class="image-label">Visualisasi: <span>Arsitektur Neuron</span></div>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- POPUP (OVERLAY) -->
-    <Transition name="ppt-zoom">
+    <!-- MODAL POPUP: BERSIH & TERORGANISIR -->
+    <Transition name="ppt-zoom" @after-enter="renderPopupVisual">
       <div v-if="isPopupOpen" class="modal-overlay" @click.self="closePopup">
         <div class="modal-window">
           <button class="modal-close" @click="closePopup">✕</button>
-          <div class="modal-header">
-            <span class="m-icon">{{ currentPopup.icon }}</span>
-            <h2>{{ currentPopup.title }}</h2>
-          </div>
-          <p class="m-text">{{ currentPopup.description }}</p>
-          <div class="m-img-box">
-            <img :src="currentPopup.imagePlaceholder" />
+          
+          <div class="modal-grid">
+            <div class="m-text-side">
+              <div class="m-header">
+                <span class="m-visual-icon">{{ activeCard.icon }}</span>
+                <h2 :style="{ color: activeCard.color }">{{ activeCard.title }}</h2>
+              </div>
+              <p class="m-desc">{{ activeCard.description }}</p>
+            </div>
+
+            <div class="m-visual-side">
+              <div id="d3-popup-canvas" class="d3-container"></div>
+              <div class="viz-note">Simulasi {{ activeCard.title }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -93,143 +67,147 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import * as d3 from "d3";
+import gsap from "gsap";
 
 const isPopupOpen = ref(false);
-const currentPopup = ref({});
+const activeCard = ref({});
 const networkSVG = ref(null);
 
-const openPopup = (title, icon, description, imagePlaceholder) => {
-  currentPopup.value = { title, icon, description, imagePlaceholder };
-  isPopupOpen.value = true;
-};
+// Data kartu
+const cards = [
+  { title: 'Neuron Buatan', icon: '🧠', color: '#38bdf8', short: 'Unit pemroses dasar data.', description: 'Bekerja seperti sel saraf (soma), menerima input dari luar, memprosesnya dengan hitungan matematika, lalu mengirimkan hasilnya.' },
+  { title: 'Koneksi & Bobot', icon: '🔗', color: '#6366f1', short: 'Pengatur kekuatan transmisi.', description: 'Menentukan seberapa penting sebuah informasi. Semakin besar bobot, semakin kuat pengaruh data tersebut terhadap keputusan akhir.' },
+  { title: 'Proses Belajar', icon: '⚙️', color: '#f43f5e', short: 'Adaptasi otomatis sistem.', description: 'Jaringan memperbaiki diri secara otomatis dengan menyesuaikan bobot koneksi setiap kali menemukan kesalahan prediksi.' }
+];
+
+const openPopup = (card) => { activeCard.value = card; isPopupOpen.value = true; };
 const closePopup = () => (isPopupOpen.value = false);
 
+// Background Animation (Tetap D3)
 onMounted(() => {
+  // Hapus animasi muncul header, langsung tampil
+  // Inisialisasi jaringan saraf
   const svg = d3.select(networkSVG.value);
   const width = window.innerWidth, height = window.innerHeight;
   svg.attr("width", width).attr("height", height);
-  const nodes = d3.range(30).map(i => ({ id: i }));
-  const links = d3.range(40).map(() => ({ source: Math.floor(Math.random()*30), target: Math.floor(Math.random()*30) }));
-  const link = svg.append("g").selectAll("line").data(links).enter().append("line").attr("stroke", "#6366f1").attr("opacity", 0.15);
-  const node = svg.append("g").selectAll("circle").data(nodes).enter().append("circle").attr("r", 4).attr("fill", "#38bdf8").attr("opacity", 0.4);
-  d3.forceSimulation(nodes).force("link", d3.forceLink(links).distance(200)).force("charge", d3.forceManyBody().strength(-100)).force("center", d3.forceCenter(width/2, height/2))
+  const nodes = d3.range(35).map(i => ({ id: i }));
+  const links = d3.range(50).map(() => ({ source: Math.floor(Math.random()*35), target: Math.floor(Math.random()*35) }));
+  
+  const link = svg.append("g").selectAll("line").data(links).enter().append("line").attr("stroke", "#6366f1").attr("opacity", 0.1);
+  const node = svg.append("g").selectAll("circle").data(nodes).enter().append("circle").attr("r", 3).attr("fill", "#38bdf8").attr("opacity", 0.3);
+
+  d3.forceSimulation(nodes).force("link", d3.forceLink(links).distance(200)).force("charge", d3.forceManyBody().strength(-150)).force("center", d3.forceCenter(width/2, height/2))
     .on("tick", () => {
       link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
       node.attr("cx", d => d.x).attr("cy", d => d.y);
     });
 });
+
+// Popup visualisasi
+const renderPopupVisual = async () => {
+  await nextTick();
+  const container = document.querySelector("#d3-popup-canvas");
+  if (!container) return;
+  const w = container.clientWidth, h = container.clientHeight;
+  d3.select("#d3-popup-canvas").selectAll("*").remove();
+  const svg = d3.select("#d3-popup-canvas").append("svg").attr("width", "100%").attr("height", "100%");
+  const color = activeCard.value.color;
+
+  if (activeCard.value.title === 'Neuron Buatan') {
+    svg.append("circle").attr("cx", w/2).attr("cy", h/2).attr("r", 45).attr("fill", "none").attr("stroke", color).attr("stroke-width", 3);
+    for(let i=0; i<3; i++) {
+      const p = svg.append("circle").attr("r", 6).attr("fill", color);
+      gsap.fromTo(p.node(), { attr: { cx: 40, cy: (h/4)*(i+1) } }, { attr: { cx: w/2 - 45, cy: h/2 }, opacity: 0, duration: 2, repeat: -1, delay: i*0.4 });
+    }
+  } else {
+    const mainCircle = svg.append("circle").attr("cx", w/2).attr("cy", h/2).attr("r", 30).attr("fill", color).attr("opacity", 0.6);
+    gsap.to(mainCircle.node(), { r: 60, opacity: 0, duration: 1.5, repeat: -1 });
+  }
+};
 </script>
 
 <style scoped>
-/* BACKGROUND SPACE */
 .presentation-space {
-  width: 100vw;
-  height: 100vh;
-  background: #020617;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
+  width: 100vw; height: 100vh; background: #020617;
+  display: flex; justify-content: center; align-items: center;
+  position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
 }
 
-.network-svg { position: absolute; inset: 0; z-index: 1; }
+.network-svg { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 
-/* SLIDE BOX (Ukuran tetap 16:9 seperti PPT) */
 .slide-fixed-box {
-  position: relative;
-  z-index: 2;
-  width: 90vw; /* Lebar slide */
-  aspect-ratio: 16 / 9; /* Rasio PPT Standar */
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 4% 5%; /* Menggunakan % agar responsif di dalam box */
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+  position: relative; z-index: 2; width: 85vw; aspect-ratio: 16 / 9;
+  background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px;
+  padding: 4rem; display: flex; flex-direction: column; 
 }
 
-/* TYPOGRAPHY */
-.main-title { font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 900; color: white; margin: 0; }
-.accent { color: #38bdf8; }
-.main-subtitle { font-size: clamp(1rem, 2vw, 1.8rem); color: #94a3b8; margin-top: 10px; }
-
-/* BODY LAYOUT */
-.slide-body {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 5%;
-  margin-top: 3%;
-  flex-grow: 1;
+/* Hapus animasi muncul, tampil langsung */
+.slide-header {
+  /* Tidak perlu diubah, tetap default */
 }
 
-/* CARDS */
-.content-column { display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; }
+.main-title { 
+  font-size: 4.5rem; 
+  font-weight: 900; 
+  color: white; 
+  letter-spacing: -3px; 
+  margin: 0; 
+}
+
+.accent { color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+.main-subtitle { font-size: 1.6rem; color: #94a3b8; margin-top: 10px; }
+
+.slide-body { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; flex-grow: 1; align-items: center; }
+
+.content-column { display: flex; flex-direction: column; gap: 1.5rem; }
+
 .ppt-card {
-  background: rgba(30, 41, 59, 0.6);
-  border-left: 5px solid #6366f1;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  cursor: pointer;
-  transition: 0.3s;
+  background: rgba(30, 41, 59, 0.4); padding: 1.8rem 2.2rem; border-radius: 24px;
+  display: flex; align-items: center; gap: 1.8rem; cursor: pointer;
+  border-left: 8px solid var(--accent-color); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.ppt-card:hover { transform: scale(1.03); background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
-.card-icon { font-size: 3rem; }
-.card-info h3 { font-size: 1.8rem; color: #38bdf8; margin-bottom: 5px; }
-.card-info p { font-size: 1.1rem; color: #cbd5e1; }
+.ppt-card:hover { transform: translateX(25px); background: rgba(255,255,255,0.08); }
 
-/* VISUAL */
-.hero-image-frame { text-align: center; }
-.hero-image-frame img { width: 100%; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-.image-label { margin-top: 1rem; font-size: 1.5rem; font-weight: bold; color: white; }
-.image-label span { color: #6366f1; }
+.visual-icon { font-size: 3.5rem; }
 
-/* MODAL / POPUP */
+.card-info h3 { font-size: 2rem; color: #fff; margin-bottom: 4px; font-weight: 800; }
+.card-info p { font-size: 1.2rem; color: #94a3b8; margin: 0; }
+
+.hero-image-frame img { margin-left: 12rem; width: 50%; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+.image-label { margin-top: 1.5rem; font-size: 1.6rem; color: white; font-weight: bold; text-align: center; }
+.image-label span { color: #38bdf8; }
+
+/* MODAL */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.9);
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  position: fixed; inset: 0; background: rgba(2, 6, 23, 0.96);
+  z-index: 100; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(25px);
 }
 .modal-window {
-  background: #0f172a;
-  width: 100%;
-  max-width: 800px;
-  padding: 3rem;
-  border-radius: 30px;
-  border: 2px solid #38bdf8;
-  position: relative;
+  background: #0f172a; width: 950px; padding: 4rem;
+  border-radius: 45px; border: 1px solid rgba(255,255,255,0.1); position: relative;
 }
-.modal-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 2rem; color: #94a3b8; background: none; border: none; cursor: pointer; }
-.modal-header { display: flex; align-items: center; gap: 20px; margin-bottom: 1.5rem; }
-.m-icon { font-size: 4rem; }
-.modal-header h2 { font-size: 3rem; color: #38bdf8; }
-.m-text { font-size: 1.5rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 2rem; }
-.m-img-box img { width: 100%; border-radius: 15px; }
+.modal-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center; }
 
-/* TRANSITIONS */
-.ppt-zoom-enter-active, .ppt-zoom-leave-active { transition: all 0.4s ease; }
-.ppt-zoom-enter-from, .ppt-zoom-leave-to { opacity: 0; transform: scale(0.85); }
+.m-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.m-visual-icon { font-size: 4rem; }
+.m-header h2 { font-size: 3.5rem; font-weight: 900; margin: 0; }
+.m-desc { font-size: 1.8rem; color: #cbd5e1; line-height: 1.6; }
 
-/* BADGE & PULSE */
-.status-badge { display: inline-flex; align-items: center; gap: 8px; color: #6366f1; font-weight: bold; margin-top: 5px; }
-.pulse { width: 10px; height: 10px; background: #6366f1; border-radius: 50%; animation: pulse-kf 2s infinite; }
-@keyframes pulse-kf { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.d3-container { background: #020617; height: 350px; border-radius: 30px; border: 1px solid #1e293b; }
+.viz-note { margin-top: 1rem; color: #64748b; font-size: 1rem; text-align: center; font-family: monospace; }
 
-/* RESPONSIVE SCALE */
-@media (max-width: 1000px) {
-  .slide-fixed-box { aspect-ratio: auto; height: 90vh; overflow-y: auto; }
-  .slide-body { grid-template-columns: 1fr; }
-}
+.modal-close { position: absolute; top: 2.5rem; right: 2.5rem; font-size: 3rem; color: #475569; background: none; border: none; cursor: pointer; transition: 0.3s; }
+.modal-close:hover { color: white; transform: rotate(90deg); }
+
+/* Badges */
+.status-badge { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; color: #6366f1; font-weight: bold; letter-spacing: 1px; }
+.pulse { width: 12px; height: 12px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 15px #38bdf8; animation: glow 2s infinite; }
+@keyframes glow { 0% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } 100% { opacity: 0.5; transform: scale(1); } }
+
+/* Transitions */
+.ppt-zoom-enter-active, .ppt-zoom-leave-active { transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.ppt-zoom-enter-from, .ppt-zoom-leave-to { opacity: 0; transform: scale(0.8) translateY(40px); }
 </style>
